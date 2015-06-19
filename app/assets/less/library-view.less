@@ -1,0 +1,171 @@
+// Layout
+.universal() {
+
+    .lo-full,
+    .lo-half,
+    .lo-quarter,
+    .lo-auron-1-3,
+    .lo-auron-2-3,
+    .lo-one-third,
+    .lo-two-thirds {
+        float: left;
+        margin-bottom: 2rem;
+        padding: 0 2rem;
+    }
+    #itservices {
+        h1 {
+            margin: 0;
+        }
+        hr {
+            border: none;
+            border-bottom: 1px solid #fff;
+        }
+    }
+    .itservices-item {
+        footer {
+            a {
+                text-align: left !important;
+            }
+        }
+    }
+}
+
+.small() {
+    .lo-full, .lo-half, .lo-quarter, .lo-auron-1-3, .lo-auron-2-3, .lo-one-third, .lo-two-thirds {
+        width: 100%;
+    }
+}
+
+.medium() {
+    //.lo-cover();
+    .lo-full {
+        width: 100%;
+    }
+    .lo-half {
+        width: 50%;
+        //margin: 1%;
+        //float: left;
+        padding: 0 2rem;
+    }
+    .lo-one-third {
+        width: 100%;
+        //margin: 0 1%;
+        padding: 0 2rem;
+    }
+    .lo-two-thirds {
+        width: 100%;
+        //margin: 0 1%;
+        padding: 0 2rem;
+    }
+    .lo-quarter {
+        width: 50%;
+        //margin: 0 1%;
+        padding: 0 2rem;
+    }
+    .lo-auron-1-3 {
+        width: 100% * 0.382;
+        padding: 0 2rem;
+    }
+    .lo-auron-2-3 {
+        width: 100% * 0.618;
+        width: 100%;
+    }
+}
+
+.large() {
+    //.lo-cover();
+    .lo-full {
+        width: 100%;
+    }
+    .lo-half {
+        width: 50%;
+        //margin-left: 1%;
+        //margin-right: 1%;
+        padding: 0 2rem;
+    }
+    .lo-quarter {
+        width: 25%;
+        //margin: 0 1%;
+        padding: 0 2rem;
+    }
+    .lo-auron-1-3 {
+        width: 100% * 0.382;
+        padding: 0 2rem;
+    }
+    .lo-auron-2-3 {
+        width: 100% * 0.618;
+    }
+    .lo-one-third {
+        width: 31%;
+        margin-left: 1%;
+        margin-right: 1%;
+        padding: 0 2rem;
+    }
+    .lo-two-thirds {
+        width: 62%;
+        margin-left: 1%;
+        margin-right: 1%;
+        padding: 0 2rem;
+    }
+    .lo-first {
+        padding-left: 0;
+    }
+    .lo-last {
+        padding-right: 0;
+    }
+    .lo-auron-2-3 {
+        .lo-full {
+            //padding: 0;
+            //margin: 0;
+        }
+        .lo-half {
+            //&.lo-first{
+            //  padding-left: 0;
+            //  //padding-right: 2rem;
+            //}
+            //&.lo-last{
+            //  //padding-left: 2rem;
+            //  padding-right: 0;
+            //}
+        }
+        .lo-quarter {}
+        .lo-first {
+            padding-left: 0;
+        }
+        .lo-last {
+            padding-right: 0;
+        }
+    }
+}
+
+.retina() {}
+
+.print() {}
+
+// IMPORT
+@import "../../../vendor/frontend/app/assets/less/variables/_standard.less";
+@import "../../../vendor/bootstrap/less/variables.less";
+@import "../../../vendor/bootstrap/less/mixins.less";
+@import "../../../vendor/bootstrap/less/breadcrumbs.less";
+@import "../../../vendor/frontend/app/assets/less/components/_component_content_itservices.less";
+@import "../../../vendor/frontend/app/assets/less/components/_component_helpers.less";
+// -----------------------------------------------------------
+// -----------------------------------------------------------
+// Output
+.universal();
+@media screen and (max-width: 640px) {
+    .small();
+}
+
+@media screen and (min-width: 641px) and (max-width: 899px) {
+    .medium();
+}
+
+@media screen and (min-width: 900px) {
+    .large();
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dppx) {
+    .retina();
+}

@@ -1,0 +1,62 @@
+<header>
+  <h1>Biblioteket</h1>
+</header>
+<section>
+  {{!-- Søk --}}
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#oria" aria-controls="oria" role="tab" data-toggle="tab">Søk i Oria</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Bibsys ASK</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Google Scholar</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Avansert søk</a></li>
+  </ul>
+  <div role="tabpanel" class="tab-pane fade in active" id="oria">
+
+
+  <form action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" id="simple" method="post" name="searchForm" target="_self">
+    <div class="form-group">
+      <label class="sr-only" for="library-search">Søk i Oria</label>
+      <input type="email" class="form-control" id="library-search" placeholder="Søk etter bøker, artikler, tidsskrifter m.m.">
+    </div>
+    <button type="submit" class="btn btn-default">Søk</button>
+  </form>
+    </div>
+
+  <div role="tabpanel" class="tab-pane fade in active" id="bibsys">
+
+
+  <form action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" id="simple" method="post" name="searchForm" target="_self">
+    <div class="form-group">
+      <label class="sr-only" for="library-search">Søk i bibsys</label>
+      <input type="email" class="form-control" id="library-search" placeholder="Søk etter bøker, tidsskrifter m.m">
+    </div>
+    <button type="submit" class="btn btn-default">Søk</button>
+  </form>
+    </div>
+</section>
+
+<section>
+  {{!-- Åpningstider --}}
+</section>
+
+<section>
+  {{!-- Seksjoner --}}
+  <article>
+    <h1>Tjenester</h1>
+    <ul>
+       <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Forny lån</a></li>
+
+    </ul>
+  </article>
+  <article>
+    <h1>Databaser</h1>
+    {{#each}}
+    {{/each}}
+  </article>
+</section>
+
+
+
+
+<section class="article-load" data-article-lo-class="lo-half" data-template="posts" data-category="20" data-pagesize="6" data-article-destination-address="/nor/biblioteket/biblioteket/aktuelt" data-destination=".outlet">
+  {{!-- Nyheter --}}
+</section>
