@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   // Initiate grunt tasks
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    moment: require('moment'),
     // Tasks
     less: {
       standard: {
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
     cssmin: {
       main: {
         options: {
-          banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %> */'
+          banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>, released: <%= moment().format("hh:mm DD-MM-YYYY") %>  */'
         },
         expand: true,
         cwd: 'build',
@@ -107,7 +108,7 @@ module.exports = function(grunt) {
         mangle: false,
         //compress: true,
         preserveComments: false,
-        banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %> */'
+        banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>, released: <%= moment().format("hh:mm DD-MM-YYYY") %>  */'
       },
       main: {
         files: {

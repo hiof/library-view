@@ -1,7 +1,21 @@
 (function(Hiof, undefined) {
 
+    renderData = function(data) {
 
-    getRelationship = function() {
+
+
+        var templateSource = Hiof.Templates['library/index'];
+
+
+        var markup = templateSource(data);
+        $('.library-portal').html(markup);
+        //var scrollDestEl = "#content";
+        //Hiof.scrollToElement(scrollDestEl);
+
+    };
+
+    getData = function() {
+        var options = {};
         // Setup the query
         var settings = $.extend({
             // These are the defaults.
@@ -16,19 +30,19 @@
             contentType = "text/plain";
         }
         $.ajax({
-            url: 'http://hiof.no/api/v1/page-relationship/',
+            url: 'http://hiof.no/api/v1/libraryservices/',
             method: 'GET',
             async: true,
             dataType: 'json',
             data: settings,
             contentType: contentType,
             success: function(data) {
-                //alert("Data from Server: "+JSON.stringify(data));
 
-                debug(data);
+                console.log(data);
+                renderData(data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                //alert("You can not send Cross Domain AJAX requests: " + errorThrown);
+                alert("You can not send Cross Domain AJAX requests: " + errorThrown);
             }
 
         });
@@ -37,7 +51,7 @@
     // on document load
     $(function() {
         if ($('.library-portal').length) {
-          getRelationship();
+            getData();
         }
     });
 
