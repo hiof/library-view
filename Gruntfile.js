@@ -47,13 +47,7 @@ module.exports = function(grunt) {
       }
     },
     copy: {
-      jstemplates: {
-        expand: true,
-        cwd: 'vendor/frontend/app/templates/',
-        src: '**',
-        dest: 'build/templates/',
-        filter: 'isFile'
-      },
+
       dist: {
         expand: true,
         cwd: 'build/',
@@ -78,12 +72,16 @@ module.exports = function(grunt) {
       options: {
         namespace: 'Hiof.Templates',
         processName: function(filePath) {
-          return filePath.replace(/^app\/templates\//, '').replace(/\.hbs$/, '');
+          if (filePath.substring(0, 4) === 'vend') {
+            return filePath.replace(/^vendor\/frontend\/app\/templates\//, '').replace(/\.hbs$/, '');
+          }else{
+            return filePath.replace(/^app\/templates\//, '').replace(/\.hbs$/, '');
+          }
         }
       },
       all: {
         files: {
-          "build/templates.js": ["app/templates/**/*.hbs"]
+          "build/templates.js": ["vendor/frontend/app/templates/page/show.hbs","vendor/frontend/app/templates/articles/**/*.hbs", "app/templates/**/*.hbs"]
         }
       }
     },
@@ -98,6 +96,7 @@ module.exports = function(grunt) {
           'vendor/detectjs/detect.min.js',
           'vendor/frontend/app/assets/js/components/__helper.js',
           'vendor/frontend/app/assets/js/components/__options.js',
+          'vendor/bootstrap/js/tab.js',
           'app/assets/js/components/_component_library.js'
         ],
         dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.js'
@@ -228,7 +227,7 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('subtaskJs', ['handlebars','jshint', 'concat:scripts', 'uglify', 'copy:jstemplates']);
+  grunt.registerTask('subtaskJs', ['handlebars','jshint', 'concat:scripts', 'uglify']);
   grunt.registerTask('subtaskCss', ['less', 'autoprefixer', 'cssmin']);
 
   grunt.registerTask('build', ['clean:build', 'clean:dist', 'subtaskJs', 'subtaskCss', 'versioning:build']);
