@@ -3,21 +3,24 @@
   <h1>Biblioteket</h1>
 </header>
 <aside class="lo-auron-1-3 library-basic-info float-right">
-<article class="language-selection">
-<form class="language-selection-form">
-  <label for="language-selection" class="control-label">Select language</label>
-  <select id="language-selection" class="language-selection-form-option form-control">
-    <option value="norwegian" selected>Norsk</option>
-    <option value="english">English</option>
-    <option value="french">Français</option>
-    <option value="spanish">Español</option>
-    <option value="german">Deutsch</option>
-  </select>
-  </form>
-</article>
-<article>
+<section>
+  <h1>Sosiale medier</h1>
+  <ul>
+    <li><a href="https://www.facebook.com/bibhiof">Facebook</a></li>
+    <li><a href="https://www.facebook.com/bibhiof">Twitter</a></li>
+    <li>Instagram
+      <ul>
+        <li><a href="http://instagram.com/hiofbibfred">Instagram Fredrikstad</a></li>
+        <li><a href="http://instagram.com/hiofbibhalden">Instagram Halden</a></li>
+      </ul>
+    </li>
+    <li><a href="https://www.youtube.com/channel/UCfDe1CghuDZt0J7hxMvjrJQ">Youtube</a></li>
+
+  </ul>
+</section>
+<section>
   {{!-- Åpningstider --}}
-  <p>Biblioteket er åpent hele sommeren <br><strong>8:00 - 15:00 mandag - fredag</strong></p></article>
+  <p>Biblioteket er åpent hele sommeren <br><strong>8:00 - 15:00 mandag - fredag</strong></p></section>
 </aside>
 
 <section class="lo-auron-2-3 library-search">
@@ -26,30 +29,39 @@
     <li role="presentation" class="active"><a href="#oria" aria-controls="oria" role="tab" data-toggle="tab">Søk i Oria</a></li>
     <li role="presentation"><a href="#bibsys" aria-controls="bibsys" role="tab" data-toggle="tab">Søk i Bibsys</a></li>
     <li role="presentation"><a href="#googlescholar" aria-controls="googlescholar" role="tab" data-toggle="tab">Søk i Scholar</a></li>
-    <li role="presentation"><a href="#advanced" aria-controls="advanced" role="tab" data-toggle="tab">Avansert søk</a></li>
+
   </ul>
   <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="oria">
 
 
   <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
-    <div class="form-group">
+    <div class="input-group">
+
       <label class="sr-only" for="library-search">Søk i Oria</label>
-      <input type="email" class="form-control input-lg" id="library-search" placeholder="Søk etter bøker, artikler, tidsskrifter m.m.">
+      <input type="email" class="form-control " id="library-search" placeholder="Søk etter bøker, artikler, tidsskrifter m.m.">
+
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary ">Søk</button>
+      </span>
     </div>
-    <button type="submit" class="btn btn-primary btn-lg">Søk</button>
   </form>
+  <p><a href="http://bibsys-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/search.do?mode=Advanced&ct=AdvancedSearch&dscnt=0&dstmp=1409567179941&vid=HIO">Avansert søk</a></p>
     </div>
 
   <div role="tabpanel" class="tab-pane" id="bibsys">
 
 
     <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
+    <div class="input-group">
       <div class="form-group">
         <label class="sr-only" for="library-search">Søk i bibsys</label>
-        <input type="email" class="form-control input-lg" id="library-search" placeholder="Søk i bibsys">
+        <input type="email" class="form-control " id="library-search" placeholder="Søk i bibsys">
       </div>
-      <button type="submit" class="btn btn-primary btn-lg">Søk</button>
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary ">Søk</button>
+        </span>
+      </div>
     </form>
     </div>
   <div role="tabpanel" class="tab-pane" id="googlescholar">
@@ -59,117 +71,91 @@
     <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
       <div class="form-group">
         <label class="sr-only" for="library-search">Søk i google scholar</label>
-        <input type="email" class="form-control input-lg" id="library-search" placeholder="Søk i Google scholar">
+        <input type="email" class="form-control " id="library-search" placeholder="Søk i Google scholar">
       </div>
-      <button type="submit" class="btn btn-primary btn-lg">Søk</button>
+      <button type="submit" class="btn btn-primary ">Søk</button>
     </form>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="advanced">
+  </div>
 
-
-
-    <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
-      <div class="form-group">
-        <label class="sr-only" for="library-search">Avansert søk</label>
-        <input type="email" class="form-control input-lg" id="library-search" placeholder="Avansert søk">
-      </div>
-      <button type="submit" class="btn btn-primary btn-lg">Søk</button>
-    </form>
-    </div>
-    </div>
 </section>
 
 
 
 
 <section class="lo-full padding-off content-section">
-  {{#each library}}
-  {{!-- Seksjoner --}}
-  {{#if elibrary}}
-  <article class="lo-quarter section">
-  <header>
 
-    <h1>E-biblioteket</h1>
-  </header>
-    <ul class="nav nav-pills nav-stacked">
-      {{#each elibrary}}
-       <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
-       {{/each}}
 
-    </ul>
-  </article>
-  {{/if}}
-  {{#if howtowrite}}
-  <article class="lo-quarter section">
-  <header>
-    <h1>Hvordan skrive oppgave</h1>
-  </header>
-    <ul class="nav nav-pills nav-stacked">
-      {{#each howtowrite}}
-       <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
-       {{/each}}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+     <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#library-navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="library-navbar-collapse">
+      {{#each library}}
+      <ul class="nav navbar-nav">
+        {{#if elibrary}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">E-biblioteket <span class="caret"></span></a>
 
-    </ul>
+          <ul class="dropdown-menu">
+          {{#each elibrary}}
+            <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if howtowrite}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Skrive & refere <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each howtowrite}}
+            <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if researchandpublication}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Forskning og publisering <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each researchandpublication}}
+            <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if orderandrenew}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Låne og bestille <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each orderandrenew}}
+            <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if helpservices}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hjelp fra biblioteket <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each helpservices}}
+            <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if about}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Om biblioteket <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each about}}
+            <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+      </ul>
 
-  </article>
-  {{/if}}
-  {{#if researchandpublication}}
-  <article class="lo-quarter section">
-  <header>
-    <h1>Forskning og publisering</h1>
-  </header>
-    <ul class="nav nav-pills nav-stacked">
-      {{#each researchandpublication}}
-       <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
-       {{/each}}
+      {{/each}}
 
-    </ul>
+    </div>
 
-  </article>
-  {{/if}}
-  {{#if orderandrenew}}
-  <article class="lo-quarter section">
-  <header>
-    <h1>Låne og bestille</h1>
-  </header>
-    <ul class="nav nav-pills nav-stacked">
-      {{#each orderandrenew}}
-       <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
-       {{/each}}
+</div>
+</nav>
 
-    </ul>
-
-  </article>
-  {{/if}}
-  {{#if helpservices}}
-  <article class="lo-quarter section">
-  <header>
-    <h1>Hjelp fra biblioteket</h1>
-  </header>
-    <ul class="nav nav-pills nav-stacked">
-      {{#each helpservices}}
-       <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
-       {{/each}}
-
-    </ul>
-
-  </article>
-  {{/if}}
-  {{#if about}}
-  <article class="lo-quarter section">
-  <header>
-    <h1>Om biblioteket</h1>
-  </header>
-    <ul class="nav nav-pills nav-stacked">
-      {{#each about}}
-       <li><a href="#/biblioteket/side/{{id}}">{{{pagetitle}}}</a></li>
-       {{/each}}
-
-    </ul>
-
-  </article>
-  {{/if}}
-  {{/each}}
 </section>
 
 
@@ -179,7 +165,7 @@
     <a class="btn btn-link arrow arrow-right float-right" href="#/biblioteket/aktuelt">Flere artikler</a>
   </header>
   <div class="outlet"></div>
-  {{!-- <div class="outlet" data-article-lo-class="lo-quarter" data-template="posts" data-category="20" data-pagesize="6" data-article-destination-address="/nor/biblioteket/biblioteket/aktuelt" data-destination=".outlet"></div>
+  {{!-- <div class="outlet" data-article-lo-class="lo-quarter" data-template="posts" data-category="20" data-pagesize="6" data-article-destination-address="/nor/biblioteket/biblioteket/aktuelt" data-destination=".outlet"></div>--}}
   {{!-- Nyheter --}}
 </section>
 </section>

@@ -4,7 +4,7 @@
 @import "../../../vendor/bootstrap/less/mixins.less";
 @import "../../../vendor/bootstrap/less/utilities.less";
 @import "../../../vendor/frontend/app/assets/less/components/_component_helpers.less";
-@import "../../../vendor/frontend/app/assets/less/components/_component_layout.less";
+
 @import "../../../vendor/frontend/app/assets/less/components/_component_typography.less";
 .reset() {
     // Old-page styling overrides
@@ -37,9 +37,14 @@
 }
 
 .universal() {
+    @import (inline) "../../../vendor/hiof-layout/dist/layout.css";
+    @import "../../../vendor/bootstrap/less/forms.less";
     @import "../../../vendor/bootstrap/less/navs.less";
     @import "../../../vendor/bootstrap/less/navbar.less";
     @import "../../../vendor/bootstrap/less/buttons.less";
+    @import "../../../vendor/bootstrap/less/button-groups.less";
+    @import "../../../vendor/bootstrap/less/input-groups.less";
+    @import "../../../vendor/bootstrap/less/dropdowns.less";
     @import "../../../vendor/bootstrap/less/forms.less";
     @import "../../../vendor/bootstrap/less/breadcrumbs.less";
     @import "../../../vendor/bootstrap/less/component-animations.less";
@@ -76,19 +81,19 @@
                 //background: #fff;
                 position: relative;
                 header{
-                    position: absolute;
-                    top: 0;
-                    background: #fff;
-                    width: 100%;
-                    left: 0;
+                    //position: absolute;
+                    //top: 0;
+                    //background: #fff;
+                    //width: 100%;
+                    //left: 0;
                 }
                 .nav{
-
+                    height: 0px;
                     //padding-top: 3rem;
-                    max-height: 200px;
-                    max-height: 20rem;
-                    overflow-y: auto;
-                    overflow-x: hidden;
+                    //max-height: 200px;
+                    //max-height: 20rem;
+                    //overflow-y: auto;
+                    overflow: hidden;
                 }
             }
         }
@@ -119,6 +124,9 @@
     ul li {
         margin-left: inherit;
     }
+    //.navbar-default{
+    //    background: @brand
+    //}
 }
 
 .small() {}
