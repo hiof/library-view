@@ -98,6 +98,7 @@ module.exports = function(grunt) {
           'vendor/frontend/app/assets/js/components/__options.js',
           'vendor/bootstrap/js/tab.js',
           'vendor/bootstrap/js/dropdown.js',
+          'vendor/bootstrap/js/affix.js',
           'app/assets/js/components/_component_library.js'
         ],
         dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.js'

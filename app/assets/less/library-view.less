@@ -48,9 +48,32 @@
     @import "../../../vendor/bootstrap/less/forms.less";
     @import "../../../vendor/bootstrap/less/breadcrumbs.less";
     @import "../../../vendor/bootstrap/less/component-animations.less";
-
+    .affix {
+      position: fixed;
+    }
     #header{
         margin-bottom: 40px;
+    }
+    .library-navigation{
+        .navbar-brand{
+            display: none;
+        }
+        &.affix{
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999999;
+            padding: 0;
+            margin: 0;
+            .navbar-brand{
+                display: block;
+            }
+            .container-fluid{
+                max-width: 1040px;
+                max-width: 104rem;
+                margin: 0 auto;
+            }
+        }
     }
     .library-portal {
         //.library-search,
@@ -127,6 +150,9 @@
     //.navbar-default{
     //    background: @brand
     //}
+    .dropdown-toggle:after {
+        display: none;
+    }
 }
 
 .small() {}

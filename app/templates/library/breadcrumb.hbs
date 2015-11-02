@@ -1,27 +1,10 @@
-<ol class="breadcrumb">
-  <li><a href="#/biblioteket">Biblioteket</a></li>
-  {{#if meta.id}}<li><a href="#">{{capitalizeFirstLetter page.[0].pagetitle}}</a></li>{{/if}}
-  {{#if meta.pageId}}
-    <li><a href="#/aktuelt">Aktuelt</a></li>
-    <li><a href="#/aktuelt/{{meta.pageId}}">{{capitalizeFirstLetter posts.[0].articleTitle}}</a></li>
-  {{/if}}
-  <li class="float-right">
-
-    <!-- Single button -->
-    <div class="btn-group ">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Select language <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a href="http://hiof.no/biblioteket">Norsk</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">English</a></li>
-        <li><a href="http://www2.hiof.no/index.php?ID=19670">Français</a></li>
-        <li><a href="http://www2.hiof.no/index.php?ID=20914">Español</a></li>
-        <li><a href="http://www.hiof.no/nor/biblioteket/om-biblioteket/deutsch">Deutsch</a></li>
-      </ul>
-    </div>
-  </li>
-</ol>
-
-
+<nav class="lo-full">
+  <ol class="breadcrumb">
+    <li><a href="#/biblioteket">Biblioteket</a></li>
+    {{#if meta.id}}<li><a href="#">{{capitalizeFirstLetter page.[0].pagetitle}}</a></li>{{/if}}
+    {{#if meta.pageId}}
+      <li><a href="#/aktuelt">Aktuelt</a></li>
+      <li><a href="#/aktuelt/{{meta.pageId}}">{{capitalizeFirstLetter posts.[0].articleTitle}}</a></li>
+    {{/if}}
+  </ol>
+</nav>

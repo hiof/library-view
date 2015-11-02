@@ -1,5 +1,10 @@
 (function(Hiof, undefined) {
 
+    Handlebars.registerHelper('urlize', function(value) {
+        return encodeURIComponent(value);
+    });
+
+
     renderIndex = function(data, settings) {
 
 
@@ -8,16 +13,47 @@
         debug('Index template loaded...');
 
 
-        var breadcrumSource = Hiof.Templates['library/breadcrumb'];
-        var templateSource = Hiof.Templates['library/index'];
-        var breadcrumb = breadcrumSource(data);
-        var markup = templateSource(data);
+        var headerTemplate = Hiof.Templates['library/header'],
+            breadcrumbTemplate = Hiof.Templates['library/breadcrumb'],
+            navbarTemplate = Hiof.Templates['library/navbar'],
+            informationTemplate = Hiof.Templates['library/information'],
+            searchTemplate = Hiof.Templates['library/search'],
+            newsTemplate = Hiof.Templates['library/news'];
+
+
+
+
+        //var templateSource = Hiof.Templates['library/index'];
+        //var breadcrumSource = Hiof.Templates['library/breadcrumb'];
+        //var templateSource = Hiof.Templates['library/index'];
+
+
+
+        // Populate templates with data
+        var header = headerTemplate(data),
+            breadcrumb = breadcrumbTemplate(data),
+            navbar = navbarTemplate(data),
+            information = informationTemplate(data),
+            search = searchTemplate(data),
+            news = newsTemplate(data);
+
+        //var index = templateSource(data);
+
+
+
         $('.library-portal').removeClass('lo-auron-2-3');
-        $('.breadcrumb-view').html(breadcrumb);
-        $('.library-portal').html(markup);
+        //$('.breadcrumb-view').html(breadcrumb);
+        $('.library-portal').html(header + navbar + information + search + news + breadcrumb);
 
 
-
+        $('.library-navigation').affix({
+            offset: {
+                top: 180,
+                bottom: function() {
+                    return (this.bottom = $('.footer').outerHeight(true));
+                }
+            }
+        });
 
         // Load articles
 
@@ -49,7 +85,7 @@
             $('.breadcrumb-view').html(breadcrumb);
             $('.library-portal').html(markup);
             scrollToElement('.library-portal');
-        } else if(settings.template === 'articles'){
+        } else if (settings.template === 'articles') {
 
             debug('/biblioteket/aktuelt loaded...');
             templateSource = Hiof.Templates['articles/posts'];
@@ -107,8 +143,8 @@
             data: settings,
             contentType: contentType,
             success: function(data) {
-                debug('Settings...');
-                debug(settings);
+                //debug('Settings...');
+                //debug(settings);
                 if ((settings.template === 'article') || (settings.template === 'articles') || (settings.template === 'article-index')) {
                     renderArticles(data, settings);
                 } else if (settings.template === 'page') {
@@ -129,7 +165,7 @@
     // Router
 
     Path.map("#/biblioteket/aktuelt/:pageid").to(function() {
-        debug('/article page entered..');
+        //debug('/article page entered..');
         var opt = {};
         opt.template = 'article';
         opt.pageId = this.params.pageid;
@@ -151,7 +187,7 @@
 
     Path.map("#/biblioteket/aktuelt").to(function() {
 
-        debug('Articles get loaded...');
+        //debug('Articles get loaded...');
         var opt = {};
         opt.template = 'articles';
         opt.url = 'http://hiof.no/api/v1/articles/';
@@ -191,15 +227,15 @@
 
 
 
-        $(document).on('click', '.library-portal a', function(e){
+        $(document).on('click', '.library-portal a', function(e) {
             //e.preventDefault();
             var url = $(this).attr('href');
             if (url.substring(0, 2) == "#/") {
                 //debug('String starts with #/');
-            }else if(url.substring(0, 1) == "#"){
+            } else if (url.substring(0, 1) == "#") {
                 hash = url + "";
                 e.preventDefault();
-                setTimeout(function () {
+                setTimeout(function() {
                     scrollToElement(hash);
                 }, 200);
 
