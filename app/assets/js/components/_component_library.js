@@ -1,7 +1,18 @@
 (function(Hiof, undefined) {
 
+    Handlebars.registerHelper('each_upto', function(ary, max, options) {
+        if (!ary || ary.length === 0)
+            return options.inverse(this);
+
+        var result = [];
+        for (var i = 0; i < max && i < ary.length; ++i)
+            result.push(options.fn(ary[i]));
+        return result.join('');
+    });
+
+
     Handlebars.registerHelper('urlize', function(value) {
-        return encodeURIComponent(value);
+        return encodeURIComponent(value.replace(/\s+/g, '-').toLowerCase());
     });
 
 
@@ -43,17 +54,17 @@
 
         $('.library-portal').removeClass('lo-auron-2-3');
         //$('.breadcrumb-view').html(breadcrumb);
-        $('.library-portal').html(header + navbar + information + search + news + breadcrumb);
+        $('.library-portal').html(header + information + search + navbar + news + breadcrumb);
 
 
-        $('.library-navigation').affix({
-            offset: {
-                top: 180,
-                bottom: function() {
-                    return (this.bottom = $('.footer').outerHeight(true));
-                }
-            }
-        });
+        //$('.library-navigation').affix({
+        //    offset: {
+        //        top: 180,
+        //        bottom: function() {
+        //            return (this.bottom = $('.footer').outerHeight(true));
+        //        }
+        //    }
+        //});
 
         // Load articles
 
@@ -172,6 +183,16 @@
         opt.articleLoClass = 'lo-auron-2-3';
         opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
         opt.url = 'http://hiof.no/api/v1/articles/';
+        loadData(opt);
+    });
+    Path.map("#/biblioteket/side/:pageid/:pagetitle").enter(function() {
+        //Reset checkboxes
+        //resetFilter();
+    }).to(function() {
+        var opt = {};
+        opt.template = 'page';
+        opt.id = this.params.pageid;
+        opt.url = 'http://hiof.no/api/v1/page/';
         loadData(opt);
     });
     Path.map("#/biblioteket/side/:pageid").enter(function() {
