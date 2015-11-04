@@ -13,6 +13,8 @@
     "pathjs": "https://github.com/mtrpcic/pathjs.git",
     "frontend": "https://github.com/hiof/frontend.git",
     "hiof-layout": "https://github.com/hiof/layout.git",
+    "hiof-colors": "https://github.com/hiof/colors.git",
+    "hiof-typography": "https://github.com/hiof/typography.git",
     "jQuery-ajaxTransport-XDomainRequest": "https://github.com/MoonScript/jQuery-ajaxTransport-XDomainRequest.git",
     "detectjs": "https://github.com/darcyclarke/Detect.js.git"
   }

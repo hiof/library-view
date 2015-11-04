@@ -9,6 +9,75 @@
             result.push(options.fn(ary[i]));
         return result.join('');
     });
+    Handlebars.registerHelper('each_after', function(ary, max, options) {
+        if (!ary || ary.length === 0)
+            return options.inverse(this);
+
+        var result = [];
+        for (var i = max; i > 0 && i < ary.length; --i)
+            result.push(options.fn(ary[i]));
+        return result.join('');
+    });
+
+
+
+    Handlebars.registerHelper('compare', function(lvalue, operator, rvalue, options) {
+        lvalue = lvalue.length;
+        var operators, result;
+
+        if (arguments.length < 3) {
+            throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+        }
+
+        if (options === undefined) {
+            options = rvalue;
+            rvalue = operator;
+            operator = "===";
+        }
+
+        operators = {
+            '==': function(l, r) {
+                return l == r;
+            },
+            '===': function(l, r) {
+                return l === r;
+            },
+            '!=': function(l, r) {
+                return l != r;
+            },
+            '!==': function(l, r) {
+                return l !== r;
+            },
+            '<': function(l, r) {
+                return l < r;
+            },
+            '>': function(l, r) {
+                return l > r;
+            },
+            '<=': function(l, r) {
+                return l <= r;
+            },
+            '>=': function(l, r) {
+                return l >= r;
+            },
+            'typeof': function(l, r) {
+                return typeof l == r;
+            }
+        };
+
+        if (!operators[operator]) {
+            throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+        }
+
+        result = operators[operator](lvalue, rvalue);
+        //console.log(result);
+        if (result) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+
+    });
 
 
     Handlebars.registerHelper('urlize', function(value) {
@@ -21,12 +90,13 @@
 
 
 
-        debug('Index template loaded...');
+        //debug('Index template loaded...');
 
 
         var headerTemplate = Hiof.Templates['library/header'],
             breadcrumbTemplate = Hiof.Templates['library/breadcrumb'],
             navbarTemplate = Hiof.Templates['library/navbar'],
+            navgridTemplate = Hiof.Templates['library/navgrid'],
             informationTemplate = Hiof.Templates['library/information'],
             searchTemplate = Hiof.Templates['library/search'],
             newsTemplate = Hiof.Templates['library/news'];
@@ -44,6 +114,7 @@
         var header = headerTemplate(data),
             breadcrumb = breadcrumbTemplate(data),
             navbar = navbarTemplate(data),
+            navgrid = navgridTemplate(data),
             information = informationTemplate(data),
             search = searchTemplate(data),
             news = newsTemplate(data);
@@ -51,24 +122,31 @@
         //var index = templateSource(data);
 
 
+        // <div id="bib-view-navbar"></div>
+        // <div id="bib-view-grid"></div>
 
         $('.library-portal').removeClass('lo-auron-2-3');
         //$('.breadcrumb-view').html(breadcrumb);
-        $('.library-portal').html(header + information + search + navbar + news + breadcrumb);
+        if ($('#bib-view-navbar').length) {
+            $('.library-portal').html(header + navbar + information + search + news + breadcrumb);
+        } else {
+            $('.library-portal').html(header + information + search + navgrid + news + breadcrumb);
+        }
 
 
-        //$('.library-navigation').affix({
-        //    offset: {
-        //        top: 180,
-        //        bottom: function() {
-        //            return (this.bottom = $('.footer').outerHeight(true));
-        //        }
-        //    }
-        //});
+
+        $('.library-navigation').affix({
+            offset: {
+                top: 180,
+                bottom: function() {
+                    return (this.bottom = $('.footer').outerHeight(true));
+                }
+            }
+        });
 
         // Load articles
 
-        debug('Articles get loaded...');
+        //debug('Articles get loaded...');
         var opt = {};
         opt.template = 'article-index';
         opt.url = 'http://hiof.no/api/v1/articles/';
@@ -83,7 +161,7 @@
         var templateSource, markup;
 
 
-        debug('Article template loaded...');
+        //debug('Article template loaded...');
         if (settings.template === 'article') {
             debug('Article data:');
             data.meta = settings;
@@ -98,13 +176,13 @@
             scrollToElement('.library-portal');
         } else if (settings.template === 'articles') {
 
-            debug('/biblioteket/aktuelt loaded...');
+            //debug('/biblioteket/aktuelt loaded...');
             templateSource = Hiof.Templates['articles/posts'];
             markup = templateSource(data);
             $('.library-portal').html(markup);
         } else {
 
-            debug('/biblioteket list loaded...');
+            //debug('/biblioteket list loaded...');
             templateSource = Hiof.Templates['articles/posts'];
             markup = templateSource(data);
             $('.library-news .outlet').html(markup);
@@ -116,7 +194,7 @@
 
     renderPages = function(data, settings) {
         data.meta = settings;
-        debug(data);
+        //debug(data);
         var breadcrumSource = Hiof.Templates['library/breadcrumb'];
         var templateSource = Hiof.Templates['page/show'];
 
