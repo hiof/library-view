@@ -81,7 +81,8 @@
 
 
     Handlebars.registerHelper('urlize', function(value) {
-        return encodeURIComponent(value.replace(/\s+/g, '-').toLowerCase());
+        //return encodeURIComponent(value.replace(/\s+/g, '-').toLowerCase());
+        return value;
     });
 
 
@@ -214,7 +215,7 @@
             // These are the defaults.
             id: null,
             server: 'www2',
-            url: 'http://hiof.no/api/v1/libraryservices/',
+            url: 'http://hiof.no/api/v2/libraryservices/',
             template: null
         }, options);
 
@@ -234,6 +235,8 @@
             success: function(data) {
                 //debug('Settings...');
                 //debug(settings);
+                //debug('Data...');
+                //debug(data);
                 if ((settings.template === 'article') || (settings.template === 'articles') || (settings.template === 'article-index')) {
                     renderArticles(data, settings);
                 } else if (settings.template === 'page') {
@@ -340,6 +343,11 @@
 
             }
         });
+        $(document).on('click', '.navbar-toggle', function(e) {
+            console.log('hello...');
+            $('#library-navbar-collapse').slideToggle();
+        });
+
 
 
     });
