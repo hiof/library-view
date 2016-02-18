@@ -8,36 +8,35 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     moment: require('moment'),
     // Tasks
-    less: {
-      standard: {
-        options: {
 
-        },
-        files: [{
-          expand: true,
-          cwd: 'app/assets/less/',
-          src: ['*.less'],
-          dest: 'build/',
-          ext: '.css'
-        }]
+
+    sass: {
+      options: {
+
+      },
+      dist: {
+        files: {
+          'build/library-view.css': 'app/assets/sass/library-view.scss'
+        }
       }
     },
+
     autoprefixer: {
       options: {
         browsers: ['last 2 versions', 'ie 8', 'ie 9']
-          //diff: 'build/config/*.diff'
+        //diff: 'build/config/*.diff'
       },
       prefix: {
         expand: true,
         //flatten: true,
         src: 'build/*.css'
-          //dest: 'tmp/css/prefixed/'
+        //dest: 'tmp/css/prefixed/'
       }
     },
     cssmin: {
       main: {
         options: {
-          banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>, released: <%= moment().format("hh:mm DD-MM-YYYY") %>  */'
+          banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>, released: <%= moment().format("hh:mm DD-MM-YYYY") %>, license: <%= pkg.license %>  */'
         },
         expand: true,
         cwd: 'build',
