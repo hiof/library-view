@@ -3,14 +3,13 @@ class LibraryView {
     this.headerTemplate = Hiof.Templates['library/header'];
     this.breadcrumbTemplate = Hiof.Templates['library/breadcrumb'];
     this.navbarTemplate = Hiof.Templates['library/navbar'];
-    this.navgridTemplate = Hiof.Templates['library/navgrid'];
     this.informationTemplate = Hiof.Templates['library/information'];
     this.searchTemplate = Hiof.Templates['library/search'];
     this.newsTemplate = Hiof.Templates['library/news'];
     this.postSingleTemplate = Hiof.Templates['articles/post-single'];
     this.postPostsTemplate = Hiof.Templates['articles/posts'];
     this.pageShowTemplate = Hiof.Templates['page/show'];
-
+    this.boxTemplate = Hiof.Templates['library/box'];
   }
 
   getData(options = {}){
@@ -60,7 +59,6 @@ class LibraryView {
       let header = this.headerTemplate(data),
           breadcrumb = this.breadcrumbTemplate(data),
           navbar = this.navbarTemplate(data),
-          //navgrid = this.navgridTemplate(data),
           information = this.informationTemplate(data),
           search = this.searchTemplate(data),
           news = this.newsTemplate(data);
@@ -79,8 +77,6 @@ class LibraryView {
       });
 
     });
-
-
 
   };
   renderArticles(options = {}) {
@@ -110,25 +106,27 @@ class LibraryView {
 
     });
 
-
-
   };
 
   renderPages(options = {}) {
     this.getData(options).success(function(data){
 
-      //var breadcrumSource = Hiof.Templates['library/breadcrumb'];
-      //var templateSource = Hiof.Templates['page/show'];
-
-      let breadcrumb = this.breadcrumSource(data);
-      let markup = this.pageShowTemplate(data);
+      let breadcrumb = this.breadcrumbTemplate(data),
+          markup = this.pageShowTemplate(data);
       $('.library-portal').addClass('lo-auron-2-3');
       $('.breadcrumb-view').html(breadcrumb);
       $('.library-portal').html(markup);
       scrollToElement('.library-portal');
     });
-
-
+  };
+  renderBox(options = {}){
+    console.log(options);
+    this.getData(options).success(function(data){
+      console.log(data);
+      data.meta = options;
+      markup = this.boxTemplate(data);
+      $('.library-basic-info').html(markup);
+    });
   };
 }
 
@@ -216,12 +214,10 @@ class LibraryView {
 
     });
 
-
     Handlebars.registerHelper('urlize', function(value) {
       return encodeURIComponent(value.replace(/\s+/g, '-').toLowerCase());
       //return value;
     });
-
 
     // Router
     Path.map("#/biblioteket/aktuelt/:pagetitle/:pageid").to(function() {
@@ -246,20 +242,6 @@ class LibraryView {
       //loadData(opt);
       library.renderPages(opt);
     });
-    Path.map("#/biblioteket/side/:pageid").enter(function() {
-      //Reset checkboxes
-      //resetFilter();
-    }).to(function() {
-      var opt = {};
-      opt.template = 'page';
-      opt.id = this.params.pageid;
-      opt.url = 'http://hiof.no/api/v1/page/';
-      //loadData(opt);
-
-
-      library.renderPages(opt);
-
-    });
 
     Path.map("#/biblioteket/aktuelt").to(function() {
 
@@ -280,6 +262,18 @@ class LibraryView {
     Path.map("#/biblioteket").to(function() {
       //loadData();
       library.renderIndex();
+
+      setTimeout(function(){
+        var opt = {};
+        opt.url = 'http://hiof.no/api/v1/box/';
+        opt.server = "www2";
+        opt.id = "1036";
+        //loadData(opt);
+        library.renderBox(opt);
+      }, 500);
+
+
+
       setTimeout(function(){
         var opt = {};
         opt.template = 'article-index';
@@ -290,13 +284,21 @@ class LibraryView {
         opt.pageSize = '4';
         //loadData(opt);
         library.renderArticles(opt);
-      }, 2000);
+      }, 1500);
 
     });
     Path.map("#/biblioteket/").to(function() {
       library.renderIndex();
       setTimeout(function(){
         var opt = {};
+        opt.url = 'http://hiof.no/api/v1/box/';
+        opt.server = "www2";
+        opt.id = "1036";
+        //loadData(opt);
+        library.renderBox(opt);
+      }, 500);
+      setTimeout(function(){
+        var opt = {};
         opt.template = 'article-index';
         opt.url = 'http://hiof.no/api/v1/articles/';
         opt.category = '20';
@@ -305,13 +307,11 @@ class LibraryView {
         opt.pageSize = '4';
         //loadData(opt);
         library.renderArticles(opt);
-      }, 2000);
+      }, 1500);
 
     });
 
-
-
-    initatePathItservices = function() {
+    initatePathLibrary = function() {
       // Load root path if no path is active
       Path.root("#/biblioteket");
     };
@@ -321,12 +321,10 @@ class LibraryView {
     }
     if ($('.library-portal').length) {
       //getData();
-      initatePathItservices();
+      initatePathLibrary();
 
       Path.listen();
     }
-
-
 
     $(document).on('click', '.library-portal a', function(e) {
       //e.preventDefault();
@@ -347,8 +345,5 @@ class LibraryView {
       $('#library-navbar-collapse').slideToggle();
     });
   });
-
-
-
 
 })(window.Hiof = window.Hiof || {});
