@@ -1,9 +1,19 @@
 class LibraryView {
   constructor() {
-    //super();
+    this.headerTemplate = Hiof.Templates['library/header'];
+    this.breadcrumbTemplate = Hiof.Templates['library/breadcrumb'];
+    this.navbarTemplate = Hiof.Templates['library/navbar'];
+    this.navgridTemplate = Hiof.Templates['library/navgrid'];
+    this.informationTemplate = Hiof.Templates['library/information'];
+    this.searchTemplate = Hiof.Templates['library/search'];
+    this.newsTemplate = Hiof.Templates['library/news'];
+    this.postSingleTemplate = Hiof.Templates['articles/post-single'];
+    this.postPostsTemplate = Hiof.Templates['articles/posts'];
+    this.pageShowTemplate = Hiof.Templates['page/show'];
+
   }
+
   getData(options = {}){
-    //let data = super.getData(options);
     var defaults = {
       // These are the defaults.
       id: null,
@@ -11,7 +21,7 @@ class LibraryView {
       url: 'http://hiof.no/api/v2/libraryservices/',
       template: null
     };
-
+    // Merge settings with defaults and options
     let settings = Object.assign(
       {},
       defaults,
@@ -23,7 +33,7 @@ class LibraryView {
     if (window.XDomainRequest) { //for IE8,IE9
       contentType = "text/plain";
     }
-
+    // Return data
     return $.ajax({
       url: settings.url,
       method: 'GET',
@@ -31,6 +41,7 @@ class LibraryView {
       dataType: 'json',
       data: settings,
       contentType: contentType,
+      context: this,
       success: function(data) {
         return data;
       },
@@ -41,43 +52,22 @@ class LibraryView {
     });
 
   }
-  renderIndex(options) {
+  renderIndex(options = {}) {
 
     this.getData(options).success(function(data){
 
-
-      let headerTemplate = Hiof.Templates['library/header'],
-      breadcrumbTemplate = Hiof.Templates['library/breadcrumb'],
-      navbarTemplate = Hiof.Templates['library/navbar'],
-      navgridTemplate = Hiof.Templates['library/navgrid'],
-      informationTemplate = Hiof.Templates['library/information'],
-      searchTemplate = Hiof.Templates['library/search'],
-      newsTemplate = Hiof.Templates['library/news'];
-
       // Populate templates with data
-      let header = headerTemplate(data),
-      breadcrumb = breadcrumbTemplate(data),
-      navbar = navbarTemplate(data),
-      navgrid = navgridTemplate(data),
-      information = informationTemplate(data),
-      search = searchTemplate(data),
-      news = newsTemplate(data);
+      let header = this.headerTemplate(data),
+          breadcrumb = this.breadcrumbTemplate(data),
+          navbar = this.navbarTemplate(data),
+          //navgrid = this.navgridTemplate(data),
+          information = this.informationTemplate(data),
+          search = this.searchTemplate(data),
+          news = this.newsTemplate(data);
 
-      //var index = templateSource(data);
-
-
-      // <div id="bib-view-navbar"></div>
-      // <div id="bib-view-grid"></div>
 
       $('.library-portal').removeClass('lo-auron-2-3');
-      //$('.breadcrumb-view').html(breadcrumb);
-      //if ($('#bib-view-navbar').length) {
       $('.library-portal').html(header + navbar + information + search + news + breadcrumb);
-      //} else {
-      //  $('.library-portal').html(header + information + search + navgrid + news + breadcrumb);
-      //}
-
-
 
       $('.library-navigation').affix({
         offset: {
@@ -88,75 +78,56 @@ class LibraryView {
         }
       });
 
-      // Load articles
-
-      //debug('Articles get loaded...');
-
-
-
     });
 
 
 
   };
-  renderArticles(options) {
-    let templateSource, markup;
+  renderArticles(options = {}) {
+    let markup;
 
     this.getData(options).success(function(data){
 
       if (options.template === 'article') {
-        //debug('Article data:');
         data.meta = options;
-        //debug(data);
-        let breadcrumSource = Hiof.Templates['library/breadcrumb'];
-        templateSource = Hiof.Templates['articles/post-single'];
-        markup = templateSource(data);
-        let breadcrumb = breadcrumSource(data);
-        $('.library-portal').addClass('lo-auron-2-3');
-        $('.breadcrumb-view').html(breadcrumb);
-        $('.library-portal').html(markup);
+        markup = this.postSingleTemplate(data);
+        let breadcrumb = this.breadcrumbTemplate(data);
+        //$('.library-portal');
+        $('.library-breadcrumb').html(breadcrumb);
+        $('.library-portal').addClass('lo-auron-2-3').html(markup);
         scrollToElement('.library-portal');
       } else if (options.template === 'articles') {
 
-        //debug('/biblioteket/aktuelt loaded...');
-        templateSource = Hiof.Templates['articles/posts'];
-        markup = templateSource(data);
+        markup = this.postPostsTemplate(data);
         $('.library-portal').html(markup);
       } else {
 
-
-        templateSource = Hiof.Templates['articles/posts'];
-        markup = templateSource(data);
+        markup = this.postPostsTemplate(data);
         $('.library-news .outlet').html(markup);
         $('.article-entry').fadeIn();
-        //$('.article-entry').animate({ opacity: 1 }, 700);​
-        //scrollToElement('.library-portal');
-        //$('.library-news').slideDown();
+
       }
 
     });
-    //console.log('Data loaded for the article');
-    //console.log(data);
-    //debug('Article template loaded...');
+
 
 
   };
 
-  renderPages(options) {
+  renderPages(options = {}) {
     this.getData(options).success(function(data){
 
-      var breadcrumSource = Hiof.Templates['library/breadcrumb'];
-      var templateSource = Hiof.Templates['page/show'];
+      //var breadcrumSource = Hiof.Templates['library/breadcrumb'];
+      //var templateSource = Hiof.Templates['page/show'];
 
-      var breadcrumb = breadcrumSource(data);
-      var markup = templateSource(data);
+      let breadcrumb = this.breadcrumSource(data);
+      let markup = this.pageShowTemplate(data);
       $('.library-portal').addClass('lo-auron-2-3');
       $('.breadcrumb-view').html(breadcrumb);
       $('.library-portal').html(markup);
       scrollToElement('.library-portal');
     });
-    //data.meta = data.settings;
-    //debug(data);
+
 
   };
 }
@@ -236,7 +207,7 @@ class LibraryView {
       }
 
       result = operators[operator](lvalue, rvalue);
-      //console.log(result);
+
       if (result) {
         return options.fn(this);
       } else {
@@ -366,13 +337,13 @@ class LibraryView {
         hash = url + "";
         e.preventDefault();
         setTimeout(function() {
-          scrollToElement(hash);
+          //scrollToElement(hash);
         }, 200);
 
       }
     });
     $(document).on('click', '.navbar-toggle', function(e) {
-      //console.log('hello...');
+
       $('#library-navbar-collapse').slideToggle();
     });
   });
