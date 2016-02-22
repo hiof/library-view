@@ -1,0 +1,57 @@
+<section class="lo-auron-2-3 library-search">
+  {{!-- Søk --}}
+  <ul class="nav nav-tabs nav-justified" role="tablist">
+    <li role="presentation" class="active"><a href="#oria" aria-controls="oria" role="tab" data-toggle="tab">Mitt bibliotek</a></li>
+    <li role="presentation"><a href="#bibsys" aria-controls="bibsys" role="tab" data-toggle="tab">Alle bibliotek</a></li>
+    <li role="presentation"><a href="#googlescholar" aria-controls="googlescholar" role="tab" data-toggle="tab">Google Scholar</a></li>
+
+  </ul>
+  <div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="oria">
+
+
+  <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
+    <div class="input-group">
+
+      <label class="sr-only" for="library-search">Søk i Oria</label>
+      <input type="email" class="form-control " id="library-search" placeholder="Søk etter bøker, artikler, tidsskrifter m.m.">
+
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary ">Søk</button>
+      </span>
+    </div>
+  </form>
+  <p><a href="http://bibsys-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/search.do?mode=Advanced&ct=AdvancedSearch&dscnt=0&dstmp=1409567179941&vid=HIO">Avansert søk</a></p>
+    </div>
+
+  <div role="tabpanel" class="tab-pane" id="bibsys">
+
+
+    <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
+    <div class="input-group">
+
+        <label class="sr-only" for="library-search">Søk i bibsys</label>
+        <input type="email" class="form-control " id="library-search" placeholder="Søk i bibsys">
+
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary">Søk</button>
+        </span>
+      </div>
+    </form>
+    </div>
+  <div role="tabpanel" class="tab-pane" id="googlescholar">
+
+
+
+    <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
+      <div class="input-group">
+        <label class="sr-only" for="library-search">Søk i google scholar</label>
+        <input type="email" class="form-control " id="library-search" placeholder="Søk i Google scholar">
+        <span class="input-group-btn">
+      <button type="submit" class="btn btn-primary ">Søk</button>
+      </span>
+      </div>
+    </form>
+  </div>
+
+</section>

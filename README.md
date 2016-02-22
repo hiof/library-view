@@ -31,8 +31,8 @@ $ bower install
 ## Deploy
 
 1. Rename secret-template.json to secret.json and add your credentials.
-2. Deploy and test your code on the staging server `$ grunt deploy-staging2`
-3. Deploy to production `$ grunt deploy-www2`
+2. Deploy and test your code on the staging server `$ grunt deploy-stage2`
+3. Deploy to production `$ grunt deploy-prod2`
 
 ## Releases
 

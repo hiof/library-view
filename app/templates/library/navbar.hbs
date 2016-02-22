@@ -1,0 +1,72 @@
+<section class="library-navigation lo-full" data-spy="affix" data-offset-top="20" data-offset-bottom="200">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="http://hiof.no/biblioteket">Biblioteket</a>
+      </div>
+     <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#library-navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="library-navbar-collapse">
+      {{#each library}}
+      <ul class="nav navbar-nav">
+        {{#if elibrary}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">E-biblioteket <span class="caret"></span></a>
+
+          <ul class="dropdown-menu">
+          {{#each elibrary}}
+            <li><a href="#/biblioteket/side/{{{urlize pagetitle}}}/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if howtowrite}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Skrive & refere <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each howtowrite}}
+            <li><a href="#/biblioteket/side/{{{urlize pagetitle}}}/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if researchandpublication}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Forskning & publisering <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each researchandpublication}}
+            <li><a href="#/biblioteket/side/{{{urlize pagetitle}}}/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if orderandrenew}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Låne & bestille <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each orderandrenew}}
+            <li><a href="#/biblioteket/side/{{{urlize pagetitle}}}/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if helpservices}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="visuallyhidden">Hjelp fra biblioteket</span> Tjenester <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each helpservices}}
+            <li><a href="#/biblioteket/side/{{{urlize pagetitle}}}/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+        {{#if about}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Om biblioteket <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each about}}
+            <li><a href="#/biblioteket/side/{{{urlize pagetitle}}}/{{id}}">{{{pagetitle}}}</a></li>
+          {{/each}}
+          </ul></li>
+        {{/if}}
+      </ul>
+      {{/each}}
+    </div>
+</div>
+</nav>
+</section>

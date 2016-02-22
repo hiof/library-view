@@ -1,0 +1,119 @@
+<section class="lo-full">
+
+
+    <div class="grid">
+      {{#each library}}
+        {{#if elibrary}}
+      <div class="grid-item">
+      <h3>E-biblioteket</h3>
+        <ul>
+         {{#each_upto elibrary 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_upto}}
+          {{#compare elibrary ">" 4}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">mer <span class="caret"></span></a>
+
+          <ul class="dropdown-menu">
+          {{#each_after elibrary 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_after}}
+          </ul></li>
+          {{/compare}}
+
+          </ul>
+        </div>
+        {{/if}}
+        {{#if howtowrite}}
+      <div class="grid-item">
+      <h3>Skrive & refere</h3>
+        <ul>
+         {{#each_upto howtowrite 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_upto}}
+          {{#compare howtowrite ">" 4}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">mer <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each_after howtowrite 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_after}}
+          </ul></li>
+          {{/compare}}</ul>
+        </div>
+        {{/if}}
+        {{#if researchandpublication}}
+      <div class="grid-item">
+      <h3>Forskning & publisering</h3>
+        <ul>
+         {{#each_upto researchandpublication 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_upto}}
+          {{#compare researchandpublication ">" 4}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">mer <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each_after researchandpublication 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_after}}
+          </ul></li>
+          {{/compare}}</ul>
+        </div>
+        {{/if}}
+        {{#if orderandrenew}}
+      <div class="grid-item">
+      <h3>Låne & bestille</h3>
+        <ul>
+         {{#each_upto orderandrenew 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_upto}}
+
+          {{#compare orderandrenew ">" 4}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">mer <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each_after orderandrenew 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_after }}
+          </ul></li>
+          {{/compare}}</ul>
+        </div>
+        {{/if}}
+        {{#if helpservices}}
+      <div class="grid-item">
+      <h3>Hjelp fra biblioteket</h3>
+        <ul>
+         {{#each_upto helpservices 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_upto}}
+          {{#compare helpservices ">" 4}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="visuallyhidden">Hjelp fra biblioteket</span> mer <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each_after helpservices 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_after }}
+          </ul></li>
+          {{/compare}}</ul>
+        </div>
+        {{/if}}
+        {{#if about}}
+      <div class="grid-item">
+      <h3>Om biblioteket</h3>
+        <ul>
+         {{#each_upto about 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_upto}}
+          {{#compare about ">" 4}}
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">mer <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          {{#each_after about 5}}
+            <li><a href="#/biblioteket/side/{{id}}/{{{urlize pagetitle}}}">{{{pagetitle}}}</a></li>
+          {{/each_after }}
+          </ul></li>
+          {{/compare}}</ul>
+        </div>
+        {{/if}}
+
+
+      {{/each}}
+
+    </div>
+
+
+</section>
