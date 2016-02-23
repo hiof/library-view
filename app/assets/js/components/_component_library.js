@@ -120,9 +120,7 @@ class LibraryView {
     });
   };
   renderBox(options = {}){
-    console.log(options);
     this.getData(options).success(function(data){
-      console.log(data);
       data.meta = options;
       markup = this.boxTemplate(data);
       $('.library-basic-info').html(markup);
@@ -341,9 +339,28 @@ class LibraryView {
       }
     });
     $(document).on('click', '.navbar-toggle', function(e) {
-
       $('#library-navbar-collapse').slideToggle();
     });
+
+    $(document).on('click', '.library-search-advanced-toggle', function(e) {
+      e.preventDefault();
+      $(this).toggleClass('btn-default').toggleClass('btn-primary');
+      $('.library-search-simple').toggleClass('input-group').toggleClass('form-group');
+      $('.form-horizontal  .control-label').toggleClass('sr-only');
+      $('.library-search-simple-button').toggle();
+      $('.library-search-advanced').toggleClass('visuallyhidden');
+
+    });
+    //http://bibsys-almaprimo.hosted.exlibrisgroup.com/primo_library/libweb/action/search.do?fn=search&ct=search&initialSearch=true&mode=Basic&tab=default_tab&indx=1&dum=true&srt=rank&vid=HIO&frbg=&tb=t&vl%28freeText0%29=test&scp.scps=scope%3A%28SC_OPEN_ACCESS%29%2Cscope%3A%28%22HIO%22%29%2Cprimo_central_multiple_fe
+    //http://bibsys-almaprimo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?vid=HIO&institution=HIO&institution=HIO&search_scope=default_scope&lang=nor&afterPDS=true&check=checked&query=any,contains,
+    $(document).on('submit', '.form-horizontal', function(e){
+        //e.preventDefault();
+        let data = $('.form-horizontal input').serialize();
+
+        console.log(data);
+    });
+
+
   });
 
 })(window.Hiof = window.Hiof || {});

@@ -18,6 +18,11 @@
 
 
 // Old-page styling overrides
+
+#header{
+  display: none !important;
+}
+
 #body {
   max-width: 104rem;
 }
@@ -57,6 +62,13 @@
 
 .library-portal{
   @import "../../../vendor/hiof-typography/dist/typography";
+  font-size: 1.6rem;
+  line-height: 1.8em;
+  font-family: "Source Sans Pro", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+
   @import "../../../vendor/hiof-colors/dist/colors";
 
 
@@ -185,15 +197,52 @@
 #header {
   margin-bottom: 40px;
 }
+.emblem {
+    position: absolute;
+    top: 14px;
+    left: 2rem;
+    width: 44px;
+    height: 44px;
+    //g{fill: #000;}
+    path {
+        fill: #000;
+    }
+}
+label{
+  font-size: 14px;
+  font-size: 1.4rem;
+}
+.navbar-brand{
+  color: #111;
+  &:hover{
+    color: #000
+  }
+  .navbar-brand__hiof{
+    font-weight: bold;
+    font-size: 2.4rem;
+    position: absolute;
+    left:7rem;
+    top: 2.4rem;
+      color: #111;
+  }
+  .navbar-brand__library{
+    font-weight: bold;
+    font-size: 1.2rem;
+    position: absolute;
+    left:7rem;
+    top: 4.2rem;
+      color: #111;
+  }
+}
 .library-navigation {
   padding: 0;
   margin-bottom: 0;
   .navbar-default {
     //margin-bottom: 0;
   }
-  .navbar-brand {
-    display: none;
-  }
+  //.navbar-brand {
+  //  display: none;
+  //}
   &.affix {
     top: 0;
     left: 0;
@@ -201,9 +250,9 @@
     z-index: 999999;
     padding: 0;
     margin: 0;
-    .navbar-brand {
-      //display: block;
-    }
+    //.navbar-brand {
+    //  //display: block;
+    //}
     .container-fluid {
       max-width: 1040px;
       max-width: 104rem;
@@ -332,6 +381,14 @@ header {
 //        border-radius: 0;
 //    }
 //}
+.tab-pane{
+    min-height: 150px;
+    min-height: 15rem;
+}
+#oria{
+  transition: min-height .5s ease;
+
+}
 .library-portal {
   //.library-search,
   //.library-basic-info,
@@ -359,24 +416,19 @@ header {
     //background: #347E84;
     position: relative;
     .section {
-      //background: #fff;
       position: relative;
-      header {
-        //position: absolute;
-        //top: 0;
-        //background: #fff;
-        //width: 100%;
-        //left: 0;
-      }
       .nav {
         height: 0px;
-        //padding-top: 3rem;
-        //max-height: 200px;
-        //max-height: 20rem;
-        //overflow-y: auto;
         overflow: hidden;
       }
     }
+  }
+  .form-horizontal{
+     .form-group{
+       margin: auto;
+       margin-bottom: 10px;
+       margin-bottom: 1rem;
+     }
   }
   .library-news {
     //background: #D77869;
