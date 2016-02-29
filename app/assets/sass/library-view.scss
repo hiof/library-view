@@ -302,7 +302,7 @@ header {
   border-bottom-left-radius: $border-radius-standard;
 }
 .library-news {
-  //margin-bottom: 0;
+  margin-bottom: 0;
   position: relative;
   &:before {
     @extend .c-bg-aquablue;
@@ -315,7 +315,7 @@ header {
     height: .4rem;
   }
   .article-entry{
-    display: none;
+    //display: none;
 
   }
 
@@ -609,11 +609,15 @@ ul li {
       list-style: none;
       line-height: 4.4rem;
       position: relative;
-      margin-left: -.4rem;
+      margin-left: -.4rem !important;
       a {
         color: $white;
         padding: 0 4.4rem;
         padding-right: 2.2rem;
+        font-weight: bold;
+        &:hover{
+          color: $white;
+        }
       }
       &:first-child {
         margin-left: -.4rem !important;

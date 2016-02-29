@@ -1,10 +1,11 @@
 <nav class="lo-full library-breadcrumb">
   <ol class="breadcrumb">
-    <li><a href="#/biblioteket">Biblioteket</a></li>
-    {{#if meta.id}}<li><a href="#">{{capitalizeFirstLetter page.[0].pagetitle}}</a></li>{{/if}}
+    <li><a href="#/portal">Biblioteket</a></li>
+    {{#if meta.id}}<li><a href="#/{{urlize page.[0].pagetitle}}/p/{{page.[0].id}}">{{capitalizeFirstLetter page.[0].pagetitle}}</a></li>{{/if}}
+
     {{#if meta.pageId}}
       <li><a href="#/aktuelt">Aktuelt</a></li>
-      <li><a href="#/aktuelt/{{meta.pageId}}">{{capitalizeFirstLetter posts.[0].articleTitle}}</a></li>
+      <li><a href="#/{{urlize posts.[0].articleTitle}}/a/{{meta.pageId}}">{{capitalizeFirstLetter posts.[0].articleTitle}}</a></li>
     {{/if}}
   </ol>
 </nav>

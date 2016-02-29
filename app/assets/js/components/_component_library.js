@@ -10,6 +10,7 @@ class LibraryView {
     this.postPostsTemplate = Hiof.Templates['articles/posts'];
     this.pageShowTemplate = Hiof.Templates['page/show'];
     this.boxTemplate = Hiof.Templates['library/box'];
+    this.contentTemplate = Hiof.Templates['library/content'];
   }
 
   getData(options = {}){
@@ -51,22 +52,25 @@ class LibraryView {
     });
 
   }
-  renderIndex(options = {}) {
 
-    this.getData(options).success(function(data){
+  addToBreadcrumb(data = {}, breadcrumb = {}){
+    data.breadcrumb = breadcrumb;
+    return data;
+  };
+
+  renderLibrary(options = {}){
+    let indexRender = $.Event("indexrender");
+
+    this.getData().success(function(data){
 
       // Populate templates with data
       let header = this.headerTemplate(data),
-          breadcrumb = this.breadcrumbTemplate(data),
-          navbar = this.navbarTemplate(data),
-          information = this.informationTemplate(data),
-          search = this.searchTemplate(data),
-          news = this.newsTemplate(data);
+      breadcrumb = this.breadcrumbTemplate(data),
+      navbar = this.navbarTemplate(data),
+      content = this.contentTemplate(data);
 
 
-      $('.library-portal').removeClass('lo-auron-2-3');
-      $('.library-portal').html(header + navbar + information + search + news + breadcrumb);
-
+      $('.library-portal').html(header + navbar + content + breadcrumb);
       $('.library-navigation').affix({
         offset: {
           top: 180,
@@ -76,32 +80,49 @@ class LibraryView {
         }
       });
 
+      if ((options.template === 'article') || (options.template === 'articles')) {
+        this.renderArticles(options);
+      }else if (options.template === 'page') {
+        this.renderPages(options);
+      }else{
+
+        $(window).trigger(indexRender);
+      }
+
+
     });
+  };
+
+  renderIndex(options = {}) {
+    let articleRender = $.Event("articlerender");
+    let boxRender = $.Event("boxrender");
+    let information = this.informationTemplate(),
+    search = this.searchTemplate(),
+    news = this.newsTemplate();
+    $('.library-content').html(information + search + news);
+    $(window).trigger(articleRender);
+    $(window).trigger(boxRender);
+
 
   };
   renderArticles(options = {}) {
     let markup;
 
+    //this.renderLibrary(options);
     this.getData(options).success(function(data){
-
       if (options.template === 'article') {
         data.meta = options;
         markup = this.postSingleTemplate(data);
         let breadcrumb = this.breadcrumbTemplate(data);
-        //$('.library-portal');
         $('.library-breadcrumb').html(breadcrumb);
-        $('.library-portal').addClass('lo-auron-2-3').html(markup);
+        $('.library-content').addClass('lo-auron-2-3').html(markup);
         scrollToElement('.library-portal');
       } else if (options.template === 'articles') {
-
         markup = this.postPostsTemplate(data);
-        $('.library-portal').html(markup);
+        $('.library-content').html(markup);
       } else {
-
         markup = this.postPostsTemplate(data);
         $('.library-news .outlet').html(markup);
-        $('.article-entry').fadeIn();
-
       }
 
     });
@@ -110,14 +131,15 @@ class LibraryView {
 
   renderPages(options = {}) {
     this.getData(options).success(function(data){
-
-      let breadcrumb = this.breadcrumbTemplate(data),
-          markup = this.pageShowTemplate(data);
-      $('.library-portal').addClass('lo-auron-2-3');
-      $('.breadcrumb-view').html(breadcrumb);
-      $('.library-portal').html(markup);
+      data.meta = options;
+      let markup = this.pageShowTemplate(data);
+      let breadcrumb = this.breadcrumbTemplate(data);
+      $('.library-content').html(markup).addClass('lo-auron-2-3');
+      $('.library-breadcrumb').html(breadcrumb);
       scrollToElement('.library-portal');
     });
+
+
   };
   renderBox(options = {}){
     this.getData(options).success(function(data){
@@ -218,100 +240,54 @@ class LibraryView {
     });
 
     // Router
-    Path.map("#/biblioteket/aktuelt/:pagetitle/:pageid").to(function() {
-      //debug('/article page entered..');
+
+
+    Path.map("#/portal").to(function() {
+      library.renderLibrary();
+    });
+    Path.map("#/portal/").to(function() {
+      library.renderLibrary();
+    });
+
+
+    Path.map("#/:articletitle/a/:articleid").to(function() {
       var opt = {};
       opt.template = 'article';
-      opt.pageId = this.params.pageid;
+      opt.pageId = this.params.articleid;
       opt.articleLoClass = 'lo-auron-2-3';
-      opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
+      //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
       opt.url = 'http://hiof.no/api/v1/articles/';
       //loadData(opt);
-      library.renderArticles(opt);
+      library.renderLibrary(opt);
     });
-    Path.map("#/biblioteket/side/:pagetitle/:pageid").enter(function() {
-      //Reset checkboxes
-      //resetFilter();
+    Path.map("#/:pagetitle/p/:pageid").enter(function() {
+
     }).to(function() {
       var opt = {};
       opt.template = 'page';
       opt.id = this.params.pageid;
       opt.url = 'http://hiof.no/api/v1/page/';
       //loadData(opt);
-      library.renderPages(opt);
+      library.renderLibrary(opt);
     });
 
-    Path.map("#/biblioteket/aktuelt").to(function() {
-
-      //debug('Articles get loaded...');
+    Path.map("#/aktuelt").to(function() {
       let opt = {};
       opt.template = 'articles';
       opt.url = 'http://hiof.no/api/v1/articles/';
-      opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
       opt.category = '20';
-      opt.articleLoClass = 'lo-half';
+      opt.articleLoClass = 'lo-quarter';
       opt.pageSize = '40';
-      //loadData(opt);
-      //loadData();
-
-      library.renderArticles(opt);
+      library.renderLibrary(opt);
 
     });
-    Path.map("#/biblioteket").to(function() {
-      //loadData();
-      library.renderIndex();
-
-      setTimeout(function(){
-        var opt = {};
-        opt.url = 'http://hiof.no/api/v1/box/';
-        opt.server = "www2";
-        opt.id = "1036";
-        //loadData(opt);
-        library.renderBox(opt);
-      }, 500);
-
-
-
-      setTimeout(function(){
-        var opt = {};
-        opt.template = 'article-index';
-        opt.url = 'http://hiof.no/api/v1/articles/';
-        opt.category = '20';
-        opt.articleLoClass = 'lo-quarter';
-        opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
-        opt.pageSize = '4';
-        //loadData(opt);
-        library.renderArticles(opt);
-      }, 1500);
-
-    });
-    Path.map("#/biblioteket/").to(function() {
-      library.renderIndex();
-      setTimeout(function(){
-        var opt = {};
-        opt.url = 'http://hiof.no/api/v1/box/';
-        opt.server = "www2";
-        opt.id = "1036";
-        //loadData(opt);
-        library.renderBox(opt);
-      }, 500);
-      setTimeout(function(){
-        var opt = {};
-        opt.template = 'article-index';
-        opt.url = 'http://hiof.no/api/v1/articles/';
-        opt.category = '20';
-        opt.articleLoClass = 'lo-quarter';
-        opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
-        opt.pageSize = '4';
-        //loadData(opt);
-        library.renderArticles(opt);
-      }, 1500);
-
+    Path.map("#/").to(function(){
+      library.renderLibrary();
     });
 
     initatePathLibrary = function() {
       // Load root path if no path is active
-      Path.root("#/biblioteket");
+      Path.root("#/portal");
     };
 
     if (typeof Hiof.meta === 'undefined') {
@@ -351,15 +327,49 @@ class LibraryView {
       $('.library-search-advanced').toggleClass('visuallyhidden');
 
     });
-    //http://bibsys-almaprimo.hosted.exlibrisgroup.com/primo_library/libweb/action/search.do?fn=search&ct=search&initialSearch=true&mode=Basic&tab=default_tab&indx=1&dum=true&srt=rank&vid=HIO&frbg=&tb=t&vl%28freeText0%29=test&scp.scps=scope%3A%28SC_OPEN_ACCESS%29%2Cscope%3A%28%22HIO%22%29%2Cprimo_central_multiple_fe
-    //http://bibsys-almaprimo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?vid=HIO&institution=HIO&institution=HIO&search_scope=default_scope&lang=nor&afterPDS=true&check=checked&query=any,contains,
-    $(document).on('submit', '.form-horizontal', function(e){
-        //e.preventDefault();
-        let data = $('.form-horizontal input').serialize();
 
-        console.log(data);
+    $(document).on('submit', '.form-horizontal', function(e){
+      e.preventDefault();
+      let data = $('.form-horizontal input').serialize();
+      console.log("Searching for....");
+      console.log(data);
+      console.log("/Searching for....");
     });
 
+
+    $(window).on('indexrender', function (e) {
+      library.renderIndex();
+    });
+
+    $(window).on('articlerender', function (e) {
+      let opt = {};
+      opt.template = 'article-index';
+      opt.url = 'http://hiof.no/api/v1/articles/';
+      opt.category = '20';
+      opt.articleLoClass = 'lo-quarter';
+      //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
+      opt.pageSize = '4';
+
+
+      library.renderArticles(opt);
+    });
+
+
+    $(window).on('pagerender', function (e) {
+      library.renderPages();
+    });
+
+
+    $(window).on('boxrender', function (e) {
+
+      var opt = {};
+      opt.url = 'http://hiof.no/api/v1/box/';
+      opt.server = "www2";
+      opt.id = "1036";
+      //loadData(opt);
+      library.renderBox(opt);
+
+    });
 
   });
 
