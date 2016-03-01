@@ -114,7 +114,7 @@ class LibraryView {
         data.meta = options;
         markup = this.postSingleTemplate(data);
         let breadcrumb = this.breadcrumbTemplate(data);
-        $('.library-breadcrumb').html(breadcrumb);
+        $('#library-breadcrumb').html(breadcrumb);
         $('.library-content').addClass('lo-auron-2-3').html(markup);
         scrollToElement('.library-portal');
       } else if (options.template === 'articles') {
@@ -131,12 +131,21 @@ class LibraryView {
 
   renderPages(options = {}) {
     this.getData(options).success(function(data){
+
       data.meta = options;
+      if (data.page[0].specialfunction) {
+        let accordionView = '<div id="accordion" data-page-tree-id="'+ data.page[0].id +'"></div>';
+
+        data.page[0].specialfunction = accordionView;
+      }
+      //console.log(data);
       let markup = this.pageShowTemplate(data);
       let breadcrumb = this.breadcrumbTemplate(data);
+      //console.log(markup);
       $('.library-content').html(markup).addClass('lo-auron-2-3');
-      $('.library-breadcrumb').html(breadcrumb);
+      $('#library-breadcrumb').html(breadcrumb);
       scrollToElement('.library-portal');
+      Hiof.reloadAccordion();
     });
 
 
@@ -266,7 +275,7 @@ class LibraryView {
       var opt = {};
       opt.template = 'page';
       opt.id = this.params.pageid;
-      opt.url = 'http://hiof.no/api/v1/page/';
+      opt.url = 'http://hiof.no/api/v2/page/';
       //loadData(opt);
       library.renderLibrary(opt);
     });

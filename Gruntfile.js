@@ -82,10 +82,12 @@ module.exports = function(grunt) {
         namespace: 'Hiof.Templates',
         processName: function(filePath) {
           if (filePath.substring(0, 4) === 'vend') {
-            if (filePath.substring(7, 10) === 'fro') {
-              return filePath.replace(/^vendor\/frontend\/app\/templates\//, '').replace(/\.hbs$/, '');
-            }else if (filePath.substring(7, 10) === 'art') {
+            if (filePath.substring(7, 10) === 'art') {
               return filePath.replace(/^vendor\/articles-view\/app\/templates\//, '').replace(/\.hbs$/, '');
+            }else if (filePath.substring(7, 10) === 'acc') {
+              return filePath.replace(/^vendor\/accordion-view\/app\/templates\//, '').replace(/\.hbs$/, '');
+            }else if (filePath.substring(7, 10) === 'pag') {
+              return filePath.replace(/^vendor\/page-view\/app\/templates\//, '').replace(/\.hbs$/, '');
             }
           }else{
             return filePath.replace(/^app\/templates\//, '').replace(/\.hbs$/, '');
@@ -94,14 +96,13 @@ module.exports = function(grunt) {
       },
       all: {
         files: {
-          "build/templates.js": ["vendor/frontend/app/templates/page/show.hbs","vendor/articles-view/app/templates/articles/**/*.hbs", "app/templates/**/*.hbs"]
+          "build/templates.js": ["vendor/page-view/app/templates/page/show.hbs","vendor/accordion-view/app/templates/accordion/**/*.hbs","vendor/articles-view/app/templates/articles/**/*.hbs", "app/templates/**/*.hbs"]
         }
       }
     },
     babel: {
       options: {
         sourceMap: true
-        //presets: ['es2015']
       },
       dist: {
         files: {
@@ -120,9 +121,12 @@ module.exports = function(grunt) {
           'vendor/detectjs/detect.min.js',
           'vendor/frontend/app/assets/js/components/__helper.js',
           'vendor/frontend/app/assets/js/components/__options.js',
+          'vendor/accordion-view/app/assets/js/_accordion-functions.js',
           'vendor/bootstrap/js/tab.js',
           'vendor/bootstrap/js/dropdown.js',
           'vendor/bootstrap/js/affix.js',
+          'vendor/bootstrap/js/transition.js',
+          'vendor/bootstrap/js/collapse.js',
           'build/_<%= pkg.name %>.js'
         ],
         dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.js'
@@ -131,7 +135,6 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         mangle: false,
-        //compress: true,
         preserveComments: false,
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>, released: <%= moment().format("hh:mm DD-MM-YYYY") %>, license: <%= pkg.license %>  */'
       },
