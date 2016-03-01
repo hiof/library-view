@@ -1,14 +1,38 @@
-# Hiof library view package
+# Hiof library-portal package
 
 ## About
 
-A package with the required files for the it-services views.
+A package with the required files for the library-portal.
+
+## Required knowledge
+
+This package require knowledge of the following technologies, technics and modules:
+
+- [Javascript](https://en.wikipedia.org/wiki/JavaScript)
+    - [ES2015](https://en.wikipedia.org/wiki/ECMAScript#6th_Edition)
+    - [Babel](https://babeljs.io)
+    - [jQuery](https://jquery.com)
+    - [JSON](http://jsonapi.org)
+- [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
+    - [Sass](https://en.wikipedia.org/wiki/Sass_(stylesheet_language)
+- [HTML](https://en.wikipedia.org/wiki/HTML)
+    - [Handlebars](https://en.wikipedia.org/wiki/Handlebars_(template_system))
+- [Bootstrap](http://getbootstrap.com)
+- [Node.js](https://nodejs.org)
+    - [NPM](https://www.npmjs.com)
+- [Grunt](http://gruntjs.com) and Grunt tasks (see `Gruntfile.js` for details)
+- [Bower](http://bower.io)
+- [SSH](https://en.wikipedia.org/wiki/Secure_Shell)
+- [Git](https://git-scm.com)
+    - [Github](https://github.com)
 
 ## Copyright
 
 This project is distributed under a GNU General Public License v3 - Take a look at the COPYING file for details.
 
-## Install
+## How to get up and running
+
+### Install
 
 Install [Git](http://git-scm.com) if it's not already installed on your computer. Then run (this will download this project to the folder the shell has open):
 
@@ -16,7 +40,7 @@ Install [Git](http://git-scm.com) if it's not already installed on your computer
 $ git clone https://github.com/hiof/library-view.git
 ```
 
-Install [io.js](https://iojs.org) (or [Node.js](http://nodejs.org)) if it's not already installed on your computer. Then run (this will install the project dependencies):
+Install [Node.js](http://nodejs.org) if it's not already installed on your computer. Then run (this will install the project dependencies):
 
 ```
 $ sudo npm install -g grunt-cli
@@ -24,11 +48,11 @@ $ npm install
 $ bower install
 ```
 
-## Build
+### Build
 
 `$ grunt build`: Compiles and builds the library-view package
 
-## Deploy
+### Deploy
 
 1. Rename secret-template.json to secret.json and add your credentials.
 2. Deploy and test your code on the staging server `$ grunt deploy-stage2`
