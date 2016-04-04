@@ -9,88 +9,51 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="oria">
 
-      <form class="form-horizontal" action="http://bibsys-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do" enctype="application/x-www-form-urlencoded; charset=utf-8" method="get" name="searchForm" target="_self">
-        <input type="hidden" name="vid" value="HIO" />
-        <input type="hidden" name="institution" value="HIO" />
-        <input type="hidden" name="search_scope" value="default_scope" />
-        <input type="hidden" name="lang" value="nor" />
-        <label class="sr-only control-label" for="library-search">Søk i Oria</label>
-        <div class="input-group library-search-simple">
-          <input type="email" name="vl(freeText0)" class="form-control " id="library-search" placeholder="Søk etter bøker, artikler, tidsskrifter m.m.">
-
+      <form name='searchForm' role='search' method='post' action='http://www.oria.no/' enctype='application/x-www-form-urlencoded; charset=utf-8' id='simple-hiof' target='_self' >
+        <input name='institution' value='HIO' type='hidden'>
+        <input name='vid' value='HIO' type='hidden'>
+        <input name='search_scope' value='default_scope' type='hidden'>
+        <input name='lang' value='nor' type='hidden'>
+        <input type='hidden' value='true' name='afterPDS'>
+        <input type='hidden' name='check' value='checked'>
+        <label class="sr-only" for="query-hiof">Søk i bibsys</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="Søk etter bøker, artikler, tidsskrifter m.m." type='text' id='query-hiof' value='' name='query'  />
           <span class="input-group-btn">
-            <button type="submit" class="btn btn-primary library-search-simple-button">Søk</button>
+            <button type="submit" class="btn btn-primary">Søk</button>
           </span>
         </div>
-        <div class="visuallyhidden library-search-advanced">
-          <div class="form-group">
-            <label for="creator" class="sr-only control-label">Forfatter</label>
-            <div class="col-sm-10">
-              <input type="text" name="creator" class="form-control" id="creator" placeholder="Forfatter">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="title" class="sr-only control-label">Tittel</label>
-            <div class="col-sm-10">
-              <input type="text" name="title" class="form-control" id="title" placeholder="Tittel">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="sub" class="sr-only control-label">Emne</label>
-            <div class="col-sm-10">
-              <input type="text" name="sub" class="form-control" id="sub" placeholder="Emne">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="isbn" class="sr-only control-label">ISBN</label>
-            <div class="col-sm-10">
-              <input type="text" name="isbn" class="form-control" id="isbn" placeholder="ISBN">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="issn" class="sr-only control-label">ISSN</label>
-            <div class="col-sm-10">
-              <input type="text" name="issn" class="form-control" id="issn" placeholder="ISSN">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="lsr39" class="sr-only control-label">AutritetsId</label>
-            <div class="col-sm-10">
-              <input type="text" name="lsr39" class="form-control" id="lsr39" placeholder="AutoritetsID">
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary library-search-advanced-button btn-block">Søk</button>
-        </div>
       </form>
-      <p><a class="btn btn-primary library-search-advanced-toggle" href="#">Avansert søk</a></p>
+      <p><a class="btn btn-primary library-search-advanced-toggle" target="_blank" href="http://bibsys-almaprimo.hosted.exlibrisgroup.com/primo_library/libweb/action/search.do?mode=Advanced&ct=AdvancedSearch?vid=HIO&institution=HIO&institution=HIO">Gå til avansert søk</a></p>
     </div>
 
     <div role="tabpanel" class="tab-pane" id="bibsys">
-      <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
+      <form name='searchForm' role='search' method='post' action='http://www.oria.no/' enctype='application/x-www-form-urlencoded; charset=utf-8' id='simple-all' target='_blank' >
+        <input name='institution' value='HIO' type='hidden'>
+        <input name='vid' value='HIO' type='hidden'>
+        <input name='search_scope' value='blended_scope' type='hidden'>
+        <input name='lang' value='nor' type='hidden'>
+        <input type='hidden' value='true' name='afterPDS'>
+        <input type='hidden' name='check' value='checked'>
+        <label class="sr-only" for="query-all">Søk i bibsys alle bibliotek</label>
         <div class="input-group">
-
-          <label class="sr-only" for="library-search">Søk i bibsys</label>
-          <input type="email" class="form-control " id="library-search" placeholder="Søk i bibsys">
-
+          <input class="form-control" placeholder="Søk etter bøker, artikler, tidsskrifter m.m." type='text' id='query-all' value='' name='query'  />
           <span class="input-group-btn">
-            <button type="submit" class="btn btn-primary">Søk</button>
+            <button type="submit" class="btn btn-primary">Søk i alle bibliotek</button>
           </span>
         </div>
       </form>
     </div>
     <div role="tabpanel" class="tab-pane" id="googlescholar">
-
-
-
-      <form class="form-inline" action="http://www.oria.no/" enctype="application/x-www-form-urlencoded; charset=utf-8" method="post" name="searchForm" target="_self">
+      <form action="https://scholar.google.com/scholar" enctype="application/x-www-form-urlencoded; charset=utf-8" method="get" name="googlescholar" target="_blank">
+        <label class="sr-only" for="library-search">Søk i google scholar</label>
         <div class="input-group">
-          <label class="sr-only" for="library-search">Søk i google scholar</label>
-          <input type="email" class="form-control " id="library-search" placeholder="Søk i Google scholar">
+          <input class="form-control"  type="text"id="library-search-googlescholar" name="q" placeholder="Søk etter bøker, artikler, tidsskrifter m.m.">
           <span class="input-group-btn">
-            <button type="submit" class="btn btn-primary">Søk</button>
+            <button type="submit" class="btn btn-primary">Søk i Google Scholar</button>
           </span>
         </div>
       </form>
+      <p><a class="btn btn-primary library-search-advanced-toggle" href="https://scholar.google.com/scholar" target="_blank">Gå til Google scholar søkeside</a></p>
     </div>
-
   </section>
