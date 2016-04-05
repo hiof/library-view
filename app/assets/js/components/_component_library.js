@@ -43,6 +43,10 @@ class LibraryView {
       contentType: contentType,
       context: this,
       success: function(data) {
+        //console.log('Settings...');
+        //console.log(settings);
+        //console.log('Data...');
+        //console.log(data);
         return data;
       },
       error: function(jqXHR, textStatus, errorThrown) {
@@ -320,9 +324,7 @@ class LibraryView {
 
       }
     });
-    $(document).on('click', '.navbar-toggle', function(e) {
-      $('#library-navbar-collapse').slideToggle();
-    });
+
 
     //$(document).on('click', '.library-search-advanced-toggle', function(e) {
     //  e.preventDefault();

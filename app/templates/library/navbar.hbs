@@ -3,10 +3,12 @@
   <div class="container-fluid">
      <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#library-navbar-collapse" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <span class="button-label">Meny</span>
+        <div class="button-bars">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+         </div>
       </button>
     </div>
     <div class="collapse navbar-collapse" id="library-navbar-collapse">
@@ -63,6 +65,34 @@
         {{/if}}
       </ul>
       {{/each}}
+      <div class="navbar-social">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select language <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="http://hiof.no/biblioteket">Norsk</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">English</a></li>
+              <li><a href="http://www2.hiof.no/index.php?ID=19670">Français</a></li>
+              <li><a href="http://www2.hiof.no/index.php?ID=20914">Español</a></li>
+              <li><a href="http://www.hiof.no/nor/biblioteket/om-biblioteket/deutsch">Deutsch</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sosiale medier<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a  href="https://www.facebook.com/bibhiof">Facebook - HiØ, biblioteket</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a role="button" href="http://instagram.com/hiofbibfred">Instagram - HiØ, biblioteket Fredrikstad</a></li>
+              <li><a role="button" href="http://instagram.com/hiofbibhalden">Instagram - HiØ, biblioteket Halden</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a role="button" href="https://www.youtube.com/channel/UCfDe1CghuDZt0J7hxMvjrJQ">Youtube - HiØ, biblioteket</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
 </div>
 </nav>
