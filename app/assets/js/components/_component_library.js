@@ -1,5 +1,6 @@
 class LibraryView {
   constructor() {
+    this.view = new View();
     this.headerTemplate = Hiof.Templates['library/header'];
     this.breadcrumbTemplate = Hiof.Templates['library/breadcrumb'];
     this.navbarTemplate = Hiof.Templates['library/navbar'];
@@ -11,50 +12,13 @@ class LibraryView {
     this.pageShowTemplate = Hiof.Templates['page/show'];
     this.boxTemplate = Hiof.Templates['library/box'];
     this.contentTemplate = Hiof.Templates['library/content'];
-  }
-
-  getData(options = {}){
-    var defaults = {
+    this.defaults = {
       // These are the defaults.
       id: null,
       server: 'www2',
       url: 'http://hiof.no/api/v2/libraryservices/',
       template: null
     };
-    // Merge settings with defaults and options
-    let settings = Object.assign(
-      {},
-      defaults,
-      options
-    );
-
-    let contentType = "application/x-www-form-urlencoded; charset=utf-8";
-
-    if (window.XDomainRequest) { //for IE8,IE9
-      contentType = "text/plain";
-    }
-    // Return data
-    return $.ajax({
-      url: settings.url,
-      method: 'GET',
-      async: true,
-      dataType: 'json',
-      data: settings,
-      contentType: contentType,
-      context: this,
-      success: function(data) {
-        //console.log('Settings...');
-        //console.log(settings);
-        //console.log('Data...');
-        //console.log(data);
-        return data;
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        alert("You can not send Cross Domain AJAX requests: " + errorThrown);
-      }
-
-    });
-
   }
 
   addToBreadcrumb(data = {}, breadcrumb = {}){
@@ -63,15 +27,23 @@ class LibraryView {
   };
 
   renderLibrary(options = {}){
+    let settings = Object.assign(
+      {},
+      this.defaults
+    );
+    //console.log(options);
     let indexRender = $.Event("indexrender");
-
-    this.getData().success(function(data){
-
+    let that = this;
+    this.view.getData(settings, that).success(function(data){
+      console.log('Settings from renderLibrary');
+      console.log(settings);
+      console.log('Data from renderLibrary');
+      console.log(data);
       // Populate templates with data
-      let header = this.headerTemplate(data),
-      breadcrumb = this.breadcrumbTemplate(data),
-      navbar = this.navbarTemplate(data),
-      content = this.contentTemplate(data);
+      let header = that.headerTemplate(data),
+      breadcrumb = that.breadcrumbTemplate(data),
+      navbar = that.navbarTemplate(data),
+      content = that.contentTemplate(data);
 
 
       $('.library-portal').html(header + navbar + content + breadcrumb);
@@ -85,9 +57,9 @@ class LibraryView {
       });
 
       if ((options.template === 'article') || (options.template === 'articles')) {
-        this.renderArticles(options);
+        that.renderArticles(options);
       }else if (options.template === 'page') {
-        this.renderPages(options);
+        that.renderPages(options);
       }else{
 
         $(window).trigger(indexRender);
@@ -111,21 +83,21 @@ class LibraryView {
   };
   renderArticles(options = {}) {
     let markup;
-
+    let that = this;
     //this.renderLibrary(options);
-    this.getData(options).success(function(data){
+    this.view.getData(options, that).success(function(data){
       if (options.template === 'article') {
         data.meta = options;
-        markup = this.postSingleTemplate(data);
-        let breadcrumb = this.breadcrumbTemplate(data);
+        markup = that.postSingleTemplate(data);
+        let breadcrumb = that.breadcrumbTemplate(data);
         $('#library-breadcrumb').html(breadcrumb);
         $('.library-content').addClass('lo-auron-2-3').html(markup);
-        scrollToElement('.library-portal');
+        that.view.scrollToElement('.library-portal');
       } else if (options.template === 'articles') {
-        markup = this.postPostsTemplate(data);
+        markup = that.postPostsTemplate(data);
         $('.library-content').html(markup);
       } else {
-        markup = this.postPostsTemplate(data);
+        markup = that.postPostsTemplate(data);
         $('.library-news .outlet').html(markup);
       }
 
@@ -134,11 +106,20 @@ class LibraryView {
   };
 
   renderPages(options = {}) {
-    this.getData(options).success(function(data){
+    let that = this;
+    //console.log(that);
 
-      data.meta = options;
+    let settings = Object.assign(
+      {},
+      this.defaults,
+      options
+    );
+
+
+    this.view.getData(settings, that).success(function(data){
+      data.meta = settings;
       if (data.page[0].specialfunction) {
-        let accordionView = '<div id="accordion" data-page-tree-id="'+ data.page[0].id +'"></div>';
+        let accordionView = '<div id="accordion" data-footer="false" data-page-tree-id="'+ data.page[0].id +'"></div>';
 
         data.page[0].specialfunction = accordionView;
       }
@@ -148,14 +129,25 @@ class LibraryView {
       //console.log(markup);
       $('.library-content').html(markup).addClass('lo-auron-2-3');
       $('#library-breadcrumb').html(breadcrumb);
-      scrollToElement('.library-portal');
+      that.view.scrollToElement('.library-portal');
       Hiof.reloadAccordion();
+      setTimeout(function(){
+      if ($('#accordion').length) {
+        $('.panel-collapse').first().collapse('show');
+      }}, 100);
     });
 
 
   };
   renderBox(options = {}){
-    this.getData(options).success(function(data){
+
+    let settings = Object.assign(
+      {},
+      this.defaults,
+      options
+    );
+    let that = this;
+    this.view.getData(settings, that).success(function(data){
       data.meta = options;
       markup = this.boxTemplate(data);
       $('.library-basic-info').html(markup);
