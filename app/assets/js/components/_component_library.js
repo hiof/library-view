@@ -11,20 +11,20 @@ class LibraryView {
     this.pageShowTemplate = Hiof.Templates['page/show'];
     this.boxTemplate = Hiof.Templates['library/box'];
     this.contentTemplate = Hiof.Templates['library/content'];
-  }
-
-  getData(options = {}){
-    var defaults = {
+    this.defaults = {
       // These are the defaults.
       id: null,
       server: 'www2',
       url: 'http://hiof.no/api/v2/libraryservices/',
       template: null
     };
-    // Merge settings with defaults and options
+  }
+
+  getData(options = {}){
+    // Merge defaults and options into settings
     let settings = Object.assign(
       {},
-      defaults,
+      this.defaults,
       options
     );
 
