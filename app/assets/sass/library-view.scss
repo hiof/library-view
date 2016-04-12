@@ -85,7 +85,14 @@ $grid-float-breakpoint: 104rem;
   @import '../../../vendor/bootstrap-sass/assets/stylesheets/bootstrap/_component-animations';
 
 
-
+    .navbar-nav{
+      li{
+        margin-left: 0;
+      }
+    }
+    .padding-off{
+      padding: 0 !important;
+    }
 
   // Animations
   .sk-cube-grid {
@@ -577,6 +584,25 @@ ul li {
     position: absolute;
     top: -6rem;
     right: 1.4rem;
+  }
+  .dropdown-menu{
+    li{
+      position: relative;
+      .caret{
+        transform: rotate(-90deg);
+        float: right;
+        position: absolute;
+        top: 10px;
+        right: 5px;
+      }
+      &:hover{
+        .dropdown-menu{
+          display: block;
+          left: 100%;
+          top: -.4rem;
+        }
+      }
+    }
   }
   .library-breadcrumb {
     padding: 0;

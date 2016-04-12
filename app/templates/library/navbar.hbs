@@ -12,59 +12,28 @@
       </button>
     </div>
     <div class="collapse navbar-collapse" id="library-navbar-collapse">
-      {{#each library}}
       <ul class="nav navbar-nav">
-        {{#if elibrary}}
-          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fagstoff <span class="caret"></span></a>
-
-          <ul class="dropdown-menu">
-          {{#each elibrary}}
-            <li><a href="{{#if link}}{{link}}{{else}}#/{{{urlize pagetitle}}}/p/{{id}}{{/if}}">{{{pagetitle}}}</a></li>
-          {{/each}}
-          </ul></li>
-        {{/if}}
-        {{#if howtowrite}}
-          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Skrive & referere <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          {{#each howtowrite}}
-            <li><a href="{{#if link}}{{link}}{{else}}#/{{{urlize pagetitle}}}/p/{{id}}{{/if}}">{{{pagetitle}}}</a></li>
-          {{/each}}
-          </ul></li>
-        {{/if}}
-        {{#if researchandpublication}}
-          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Forskning & publisering <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          {{#each researchandpublication}}
-            <li><a href="{{#if link}}{{link}}{{else}}#/{{{urlize pagetitle}}}/p/{{id}}{{/if}}">{{{pagetitle}}}</a></li>
-          {{/each}}
-          </ul></li>
-        {{/if}}
-        {{#if orderandrenew}}
-          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Låne & bestille <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          {{#each orderandrenew}}
-            <li><a href="{{#if link}}{{link}}{{else}}#/{{{urlize pagetitle}}}/p/{{id}}{{/if}}">{{{pagetitle}}}</a></li>
-          {{/each}}
-          </ul></li>
-        {{/if}}
-        {{#if helpservices}}
-          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="visuallyhidden">Hjelp fra biblioteket</span> Tjenester <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          {{#each helpservices}}
-            <li><a href="{{#if link}}{{link}}{{else}}#/{{{urlize pagetitle}}}/p/{{id}}{{/if}}">{{{pagetitle}}}</a></li>
-          {{/each}}
-          </ul></li>
-        {{/if}}
-        {{#if about}}
-          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Om biblioteket <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          {{#each about}}
-            <li><a href="{{#if link}}{{link}}{{else}}#/{{{urlize pagetitle}}}/p/{{id}}{{/if}}">{{{pagetitle}}}</a></li>
-          {{/each}}
-          </ul></li>
-        {{/if}}
+        {{#each library}}
+          <li><a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{pagetitle}} {{#if child}}<span class="caret"></span>{{/if}}</a>
+            {{#if child}}
+              <ul class="dropdown-menu">
+              {{#each child}}
+                <li><a href="#/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}" data-pageid="{{id}}">{{pagetitle}} {{#if child}}<span class="caret"></span>{{/if}}</a>
+                  {{#if child}}
+                    <ul class="dropdown-menu">
+                      {{#each child}}
+                        <li><a href="#/{{urlize ../../../pagetitle}}-{{../../../id}}/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}" data-pageid="{{id}}">{{pagetitle}}</a></li>
+                        {{/each}}
+                    </ul>
+                    {{/if}}
+                </li>
+              {{/each}}
+              </ul>
+            {{/if}}
+          </li>
+        {{/each}}
       </ul>
-      {{/each}}
+
       <div class="navbar-social">
         <ul class="nav navbar-nav navbar-right">
           <li>

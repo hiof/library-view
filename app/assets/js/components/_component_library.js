@@ -15,6 +15,8 @@ class LibraryView {
     this.defaults = {
       // These are the defaults.
       id: null,
+      layered: true,
+      visible: true,
       server: 'www2',
       url: 'http://hiof.no/api/v2/libraryservices/',
       template: null
@@ -35,10 +37,11 @@ class LibraryView {
     let indexRender = $.Event("indexrender");
     let that = this;
     this.view.getData(settings, that).success(function(data){
-      console.log('Settings from renderLibrary');
-      console.log(settings);
-      console.log('Data from renderLibrary');
-      console.log(data);
+      //console.log('Settings from renderLibrary');
+      //console.log(settings);
+      //console.log('Data from renderLibrary');
+      //data.meta = settings;
+      //console.log(data);
       // Populate templates with data
       let header = that.headerTemplate(data),
       breadcrumb = that.breadcrumbTemplate(data),
@@ -86,8 +89,10 @@ class LibraryView {
     let that = this;
     //this.renderLibrary(options);
     this.view.getData(options, that).success(function(data){
+
       if (options.template === 'article') {
         data.meta = options;
+        data.meta.title = data.posts[0].articleTitle;
         markup = that.postSingleTemplate(data);
         let breadcrumb = that.breadcrumbTemplate(data);
         $('#library-breadcrumb').html(breadcrumb);
@@ -118,6 +123,7 @@ class LibraryView {
 
     this.view.getData(settings, that).success(function(data){
       data.meta = settings;
+      data.meta.title = data.page[0].pagetitle;
       if (data.page[0].specialfunction) {
         let accordionView = '<div id="accordion" data-footer="false" data-page-tree-id="'+ data.page[0].id +'"></div>';
 
@@ -128,13 +134,15 @@ class LibraryView {
       let breadcrumb = this.breadcrumbTemplate(data);
       //console.log(markup);
       $('.library-content').html(markup).addClass('lo-auron-2-3');
-      $('#library-breadcrumb').html(breadcrumb);
+      $('.library-breadcrumb').html(breadcrumb);
       that.view.scrollToElement('.library-portal');
-      Hiof.reloadAccordion();
-      setTimeout(function(){
-      if ($('#accordion').length) {
-        $('.panel-collapse').first().collapse('show');
-      }}, 100);
+      if (data.page[0].specialfunction) {
+        Hiof.reloadAccordion();
+        setTimeout(function(){
+        if ($('#accordion').length) {
+          $('.panel-collapse').first().collapse('show');
+        }}, 100);
+      }
     });
 
 
@@ -262,12 +270,45 @@ class LibraryView {
       //loadData(opt);
       library.renderLibrary(opt);
     });
-    Path.map("#/:pagetitle/p/:pageid").enter(function() {
+    Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
 
     }).to(function() {
       var opt = {};
+      var str = this.params.pagetitle3;
+      var n = str.lastIndexOf('-');
+      var result = str.substring(n + 1);
       opt.template = 'page';
-      opt.id = this.params.pageid;
+      opt.id = result;
+      opt.testId = result;
+      opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2),encodeURI(this.params.pagetitle3)];
+      opt.url = 'http://hiof.no/api/v2/page/';
+      //loadData(opt);
+      library.renderLibrary(opt);
+    });
+    Path.map("#/:pagetitle/:pagetitle2").enter(function() {
+
+    }).to(function() {
+      var opt = {};
+      var str = this.params.pagetitle2;
+      var n = str.lastIndexOf('-');
+      var result = str.substring(n + 1);
+      opt.template = 'page';
+      opt.id = result;
+      opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2)];
+      opt.url = 'http://hiof.no/api/v2/page/';
+      //loadData(opt);
+      library.renderLibrary(opt);
+    });
+    Path.map("#/:pagetitle").enter(function() {
+
+    }).to(function() {
+      var opt = {};
+      var str = this.params.pagetitle;
+      var n = str.lastIndexOf('-');
+      var result = str.substring(n + 1);
+      opt.template = 'page';
+      opt.id = result;
+      opt.pagetitle = encodeURI(this.params.pagetitle);
       opt.url = 'http://hiof.no/api/v2/page/';
       //loadData(opt);
       library.renderLibrary(opt);
