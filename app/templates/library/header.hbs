@@ -14,8 +14,16 @@
               <path fill="none" d="M26,125.6h3.5l3-8.2H29L26,125.6L26,125.6z"></path>
             </g>
           </svg>
-          <span class="navbar-brand__hiof">Høgskolen i Østfold</span>
-          <span class="navbar-brand__library">Biblioteket</span>
+
+            {{#ifCond settings.lang 'en'}}
+              <span class="navbar-brand__hiof">Østfold University College</span>
+              <span class="navbar-brand__library">Library</span>
+            {{/ifCond}}
+            {{#ifCond settings.lang 'nb'}}
+              <span class="navbar-brand__hiof">Høgskolen i Østfold</span>
+              <span class="navbar-brand__library">Biblioteket</span>
+            {{/ifCond}}
+
         </a>
       </div>
     </div>

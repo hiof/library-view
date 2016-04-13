@@ -19,7 +19,8 @@ class LibraryView {
       visible: true,
       server: 'www2',
       url: 'http://hiof.no/api/v2/libraryservices/',
-      template: null
+      template: null,
+      lang: this.view.ln,
     };
   }
 
@@ -33,15 +34,19 @@ class LibraryView {
       {},
       this.defaults
     );
-    //console.log(options);
+    //console.log(this.i18n);
+    //this.view.i18n.success(function(data){
+    //  this.i18n = data;
+    //});
     let indexRender = $.Event("indexrender");
     let that = this;
     this.view.getData(settings, that).success(function(data){
+      //data.meta = settings;
       //console.log('Settings from renderLibrary');
       //console.log(settings);
       //console.log('Data from renderLibrary');
-      //data.meta = settings;
-      //console.log(data);
+      data.settings = settings;
+      console.log(data);
       // Populate templates with data
       let header = that.headerTemplate(data),
       breadcrumb = that.breadcrumbTemplate(data),
@@ -73,11 +78,19 @@ class LibraryView {
   };
 
   renderIndex(options = {}) {
+    let data = {};
+
+    let settings = Object.assign(
+      {},
+      this.defaults
+    );
+    data.settings = settings;
+    //console.log(data);
     let articleRender = $.Event("articlerender");
     let boxRender = $.Event("boxrender");
     let information = this.informationTemplate(),
-    search = this.searchTemplate(),
-    news = this.newsTemplate();
+    search = this.searchTemplate(data),
+    news = this.newsTemplate(data);
     $('.library-content').html(information + search + news);
     $(window).trigger(articleRender);
     $(window).trigger(boxRender);
@@ -139,278 +152,282 @@ class LibraryView {
       if (data.page[0].specialfunction) {
         Hiof.reloadAccordion();
         setTimeout(function(){
-        if ($('#accordion').length) {
-          $('.panel-collapse').first().collapse('show');
-        }}, 100);
-      }
-    });
-
-
-  };
-  renderBox(options = {}){
-
-    let settings = Object.assign(
-      {},
-      this.defaults,
-      options
-    );
-    let that = this;
-    this.view.getData(settings, that).success(function(data){
-      data.meta = options;
-      markup = this.boxTemplate(data);
-      $('.library-basic-info').html(markup);
-    });
-  };
-}
-
-
-(function(Hiof, undefined) {
-  // On page load
-  $(function(){
-    let library = new LibraryView();
-    //Handlebars.registerHelper('each_upto', function(ary, max, options) {
-    //  if (!ary || ary.length === 0)
-    //  return options.inverse(this);
-    //
-    //  var result = [];
-    //  for (var i = 0; i < max && i < ary.length; ++i)
-    //  result.push(options.fn(ary[i]));
-    //  return result.join('');
-    //});
-    Handlebars.registerHelper('each_after', function(ary, max, options) {
-      if (!ary || ary.length === 0)
-      return options.inverse(this);
-
-      var result = [];
-      for (var i = max; i > 0 && i < ary.length; --i)
-      result.push(options.fn(ary[i]));
-      return result.join('');
-    });
-    Handlebars.registerHelper('compare', function(lvalue, operator, rvalue, options) {
-      lvalue = lvalue.length;
-      var operators, result;
-
-      if (arguments.length < 3) {
-        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
-      }
-
-      if (options === undefined) {
-        options = rvalue;
-        rvalue = operator;
-        operator = "===";
-      }
-
-      operators = {
-        '==': function(l, r) {
-          return l == r;
-        },
-        '===': function(l, r) {
-          return l === r;
-        },
-        '!=': function(l, r) {
-          return l != r;
-        },
-        '!==': function(l, r) {
-          return l !== r;
-        },
-        '<': function(l, r) {
-          return l < r;
-        },
-        '>': function(l, r) {
-          return l > r;
-        },
-        '<=': function(l, r) {
-          return l <= r;
-        },
-        '>=': function(l, r) {
-          return l >= r;
-        },
-        'typeof': function(l, r) {
-          return typeof l == r;
+          if ($('#accordion').length) {
+            $('.panel-collapse').first().collapse('show');
+          }}, 100);
         }
+      });
+
+
+    };
+    renderBox(options = {}){
+
+      let settings = Object.assign(
+        {},
+        this.defaults,
+        options
+      );
+      let that = this;
+      this.view.getData(settings, that).success(function(data){
+        data.meta = options;
+        markup = this.boxTemplate(data);
+        $('.library-basic-info').html(markup);
+      });
+    };
+  }
+
+
+  (function(Hiof, undefined) {
+    // On page load
+    $(function(){
+      let library = new LibraryView();
+      //Handlebars.registerHelper('each_upto', function(ary, max, options) {
+      //  if (!ary || ary.length === 0)
+      //  return options.inverse(this);
+      //
+      //  var result = [];
+      //  for (var i = 0; i < max && i < ary.length; ++i)
+      //  result.push(options.fn(ary[i]));
+      //  return result.join('');
+      //});
+      Handlebars.registerHelper('each_after', function(ary, max, options) {
+        if (!ary || ary.length === 0)
+        return options.inverse(this);
+
+        var result = [];
+        for (var i = max; i > 0 && i < ary.length; --i)
+        result.push(options.fn(ary[i]));
+        return result.join('');
+      });
+      Handlebars.registerHelper('compare', function(lvalue, operator, rvalue, options) {
+        lvalue = lvalue.length;
+        var operators, result;
+
+        if (arguments.length < 3) {
+          throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+        }
+
+        if (options === undefined) {
+          options = rvalue;
+          rvalue = operator;
+          operator = "===";
+        }
+
+        operators = {
+          '==': function(l, r) {
+            return l == r;
+          },
+          '===': function(l, r) {
+            return l === r;
+          },
+          '!=': function(l, r) {
+            return l != r;
+          },
+          '!==': function(l, r) {
+            return l !== r;
+          },
+          '<': function(l, r) {
+            return l < r;
+          },
+          '>': function(l, r) {
+            return l > r;
+          },
+          '<=': function(l, r) {
+            return l <= r;
+          },
+          '>=': function(l, r) {
+            return l >= r;
+          },
+          'typeof': function(l, r) {
+            return typeof l == r;
+          }
+        };
+
+        if (!operators[operator]) {
+          throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+        }
+
+        result = operators[operator](lvalue, rvalue);
+
+        if (result) {
+          return options.fn(this);
+        } else {
+          return options.inverse(this);
+        }
+
+      });
+
+      Handlebars.registerHelper('urlize', function(value) {
+        return encodeURIComponent(value.replace(/\s+/g, '-').toLowerCase());
+        //return value;
+      });
+
+      // Router
+
+
+      Path.map("#/portal").to(function() {
+        library.renderLibrary();
+      });
+      Path.map("#/portal/").to(function() {
+        library.renderLibrary();
+      });
+
+
+      Path.map("#/:articletitle/a/:articleid").to(function() {
+        var opt = {};
+        opt.template = 'article';
+        opt.pageId = this.params.articleid;
+        opt.articleLoClass = 'lo-auron-2-3';
+        //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
+        opt.url = 'http://hiof.no/api/v1/articles/';
+        //loadData(opt);
+        library.renderLibrary(opt);
+      });
+      Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
+
+      }).to(function() {
+        var opt = {};
+        var str = this.params.pagetitle3;
+        var n = str.lastIndexOf('-');
+        var result = str.substring(n + 1);
+        opt.template = 'page';
+        opt.id = result;
+        opt.testId = result;
+        opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2),encodeURI(this.params.pagetitle3)];
+        opt.url = 'http://hiof.no/api/v2/page/';
+        //loadData(opt);
+        library.renderLibrary(opt);
+      });
+      Path.map("#/:pagetitle/:pagetitle2").enter(function() {
+
+      }).to(function() {
+        var opt = {};
+        var str = this.params.pagetitle2;
+        var n = str.lastIndexOf('-');
+        var result = str.substring(n + 1);
+        opt.template = 'page';
+        opt.id = result;
+        opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2)];
+        opt.url = 'http://hiof.no/api/v2/page/';
+        //loadData(opt);
+        library.renderLibrary(opt);
+      });
+      Path.map("#/:pagetitle").enter(function() {
+
+      }).to(function() {
+        var opt = {};
+        var str = this.params.pagetitle;
+        var n = str.lastIndexOf('-');
+        var result = str.substring(n + 1);
+        opt.template = 'page';
+        opt.id = result;
+        opt.pagetitle = encodeURI(this.params.pagetitle);
+        opt.url = 'http://hiof.no/api/v2/page/';
+        //loadData(opt);
+        library.renderLibrary(opt);
+      });
+
+      Path.map("#/aktuelt").to(function() {
+        let opt = {};
+        opt.template = 'articles';
+        opt.url = 'http://hiof.no/api/v1/articles/';
+        opt.category = '20';
+        opt.articleLoClass = 'lo-quarter';
+        opt.pageSize = '40';
+        library.renderLibrary(opt);
+
+      });
+      Path.map("#/").to(function(){
+        library.renderLibrary();
+      });
+
+      initatePathLibrary = function() {
+        // Load root path if no path is active
+        Path.root("#/portal");
       };
 
-      if (!operators[operator]) {
-        throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+      if (typeof Hiof.meta === 'undefined') {
+        Hiof.meta = {};
+      }
+      if ($('.library-portal').length) {
+        //getData();
+        initatePathLibrary();
+
+        Path.listen();
       }
 
-      result = operators[operator](lvalue, rvalue);
+      $(document).on('click', '.library-portal a', function(e) {
+        //e.preventDefault();
+        var url = $(this).attr('href');
+        if (url.substring(0, 2) == "#/") {
+          //debug('String starts with #/');
+        } else if (url.substring(0, 1) == "#") {
+          hash = url + "";
+          e.preventDefault();
+          setTimeout(function() {
+            //scrollToElement(hash);
+          }, 200);
 
-      if (result) {
-        return options.fn(this);
-      } else {
-        return options.inverse(this);
-      }
-
-    });
-
-    Handlebars.registerHelper('urlize', function(value) {
-      return encodeURIComponent(value.replace(/\s+/g, '-').toLowerCase());
-      //return value;
-    });
-
-    // Router
+        }
+      });
 
 
-    Path.map("#/portal").to(function() {
-      library.renderLibrary();
-    });
-    Path.map("#/portal/").to(function() {
-      library.renderLibrary();
-    });
-
-
-    Path.map("#/:articletitle/a/:articleid").to(function() {
-      var opt = {};
-      opt.template = 'article';
-      opt.pageId = this.params.articleid;
-      opt.articleLoClass = 'lo-auron-2-3';
-      //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
-      opt.url = 'http://hiof.no/api/v1/articles/';
-      //loadData(opt);
-      library.renderLibrary(opt);
-    });
-    Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
-
-    }).to(function() {
-      var opt = {};
-      var str = this.params.pagetitle3;
-      var n = str.lastIndexOf('-');
-      var result = str.substring(n + 1);
-      opt.template = 'page';
-      opt.id = result;
-      opt.testId = result;
-      opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2),encodeURI(this.params.pagetitle3)];
-      opt.url = 'http://hiof.no/api/v2/page/';
-      //loadData(opt);
-      library.renderLibrary(opt);
-    });
-    Path.map("#/:pagetitle/:pagetitle2").enter(function() {
-
-    }).to(function() {
-      var opt = {};
-      var str = this.params.pagetitle2;
-      var n = str.lastIndexOf('-');
-      var result = str.substring(n + 1);
-      opt.template = 'page';
-      opt.id = result;
-      opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2)];
-      opt.url = 'http://hiof.no/api/v2/page/';
-      //loadData(opt);
-      library.renderLibrary(opt);
-    });
-    Path.map("#/:pagetitle").enter(function() {
-
-    }).to(function() {
-      var opt = {};
-      var str = this.params.pagetitle;
-      var n = str.lastIndexOf('-');
-      var result = str.substring(n + 1);
-      opt.template = 'page';
-      opt.id = result;
-      opt.pagetitle = encodeURI(this.params.pagetitle);
-      opt.url = 'http://hiof.no/api/v2/page/';
-      //loadData(opt);
-      library.renderLibrary(opt);
-    });
-
-    Path.map("#/aktuelt").to(function() {
-      let opt = {};
-      opt.template = 'articles';
-      opt.url = 'http://hiof.no/api/v1/articles/';
-      opt.category = '20';
-      opt.articleLoClass = 'lo-quarter';
-      opt.pageSize = '40';
-      library.renderLibrary(opt);
-
-    });
-    Path.map("#/").to(function(){
-      library.renderLibrary();
-    });
-
-    initatePathLibrary = function() {
-      // Load root path if no path is active
-      Path.root("#/portal");
-    };
-
-    if (typeof Hiof.meta === 'undefined') {
-      Hiof.meta = {};
-    }
-    if ($('.library-portal').length) {
-      //getData();
-      initatePathLibrary();
-
-      Path.listen();
-    }
-
-    $(document).on('click', '.library-portal a', function(e) {
-      //e.preventDefault();
-      var url = $(this).attr('href');
-      if (url.substring(0, 2) == "#/") {
-        //debug('String starts with #/');
-      } else if (url.substring(0, 1) == "#") {
-        hash = url + "";
-        e.preventDefault();
-        setTimeout(function() {
-          //scrollToElement(hash);
-        }, 200);
-
-      }
-    });
-
-
-    //$(document).on('click', '.library-search-advanced-toggle', function(e) {
-    //  e.preventDefault();
-    //  $(this).toggleClass('btn-default').toggleClass('btn-primary');
-    //  $('.library-search-simple').toggleClass('input-group').toggleClass('form-group');
-    //  $('.form-horizontal  .control-label').toggleClass('sr-only');
-    //  $('.library-search-simple-button').toggle();
-    //  $('.library-search-advanced').toggleClass('visuallyhidden');
-    //});
-    //$(document).on('submit', '.form-horizontal', function(e){
-    //  e.preventDefault();
-    //  let data = $('.form-horizontal input').serialize();
-    //  console.log("Searching for....");
-    //  console.log(data);
-    //  console.log("/Searching for....");
-    //});
+      //$(document).on('click', '.library-search-advanced-toggle', function(e) {
+      //  e.preventDefault();
+      //  $(this).toggleClass('btn-default').toggleClass('btn-primary');
+      //  $('.library-search-simple').toggleClass('input-group').toggleClass('form-group');
+      //  $('.form-horizontal  .control-label').toggleClass('sr-only');
+      //  $('.library-search-simple-button').toggle();
+      //  $('.library-search-advanced').toggleClass('visuallyhidden');
+      //});
+      //$(document).on('submit', '.form-horizontal', function(e){
+      //  e.preventDefault();
+      //  let data = $('.form-horizontal input').serialize();
+      //  console.log("Searching for....");
+      //  console.log(data);
+      //  console.log("/Searching for....");
+      //});
 
 
 
-    $(window).on('indexrender', function (e) {
-      library.renderIndex();
-    });
+      $(window).on('indexrender', function (e) {
+        library.renderIndex();
+      });
 
-    $(window).on('articlerender', function (e) {
-      let opt = {};
-      opt.template = 'article-index';
-      opt.url = 'http://hiof.no/api/v1/articles/';
-      opt.category = '20';
-      opt.articleLoClass = 'lo-quarter';
-      //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
-      opt.pageSize = '4';
-
-
-      library.renderArticles(opt);
-    });
+      $(window).on('articlerender', function (e) {
+        let opt = {};
+        opt.template = 'article-index';
+        opt.url = 'http://hiof.no/api/v1/articles/';
+        opt.category = '20';
+        opt.articleLoClass = 'lo-quarter';
+        //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
+        opt.pageSize = '4';
 
 
-    $(window).on('pagerender', function (e) {
-      library.renderPages();
-    });
+        library.renderArticles(opt);
+      });
 
 
-    $(window).on('boxrender', function (e) {
+      $(window).on('pagerender', function (e) {
+        library.renderPages();
+      });
 
-      var opt = {};
-      opt.url = 'http://hiof.no/api/v1/box/';
-      opt.server = "www2";
-      opt.id = "1036";
-      //loadData(opt);
-      library.renderBox(opt);
+
+      $(window).on('boxrender', function (e) {
+
+        var opt = {};
+        opt.url = 'http://hiof.no/api/v1/box/';
+        opt.server = "www2";
+        if ($('html').attr('lang') == 'en') {
+          opt.id = "1039";
+        }else{
+          opt.id = "1036";
+        }
+        //loadData(opt);
+        library.renderBox(opt);
+
+      });
 
     });
 
-  });
-
-})(window.Hiof = window.Hiof || {});
+  })(window.Hiof = window.Hiof || {});
