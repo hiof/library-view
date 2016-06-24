@@ -46,7 +46,7 @@ class LibraryView {
       //console.log(settings);
       //console.log('Data from renderLibrary');
       data.settings = settings;
-      console.log(data);
+      //console.log(data);
       // Populate templates with data
       let header = that.headerTemplate(data),
       breadcrumb = that.breadcrumbTemplate(data),
@@ -153,28 +153,64 @@ class LibraryView {
         Hiof.reloadAccordion();
         setTimeout(function(){
           if ($('#accordion').length) {
-            $('.panel-collapse').first().collapse('show');
+            //$('.panel-collapse').first().collapse('show');
+            // Manipulate page-links
+            that.fixContentLinksWithinLibrary();
           }}, 100);
+      }else{
+
+
+        // Manipulate page-links
+        that.fixContentLinksWithinLibrary();
+      }
+
+      // Highlight the current page-path in the navigation
+      $('a[data-pageid="'+data.meta.id+'"]').parentsUntil($( "ul.navbar-nav" ),'li').addClass('active');
+
+      });
+  };
+  renderBox(options = {}){
+
+    let settings = Object.assign(
+      {},
+      this.defaults,
+      options
+    );
+    let that = this;
+    this.view.getData(settings, that).success(function(data){
+      data.meta = options;
+      markup = this.boxTemplate(data);
+      $('.library-basic-info').html(markup);
+    });
+  };
+
+  fixContentLinksWithinLibrary(){
+
+    $('.library-content a').each(function(){
+      let thisLink = $(this);
+      let thisLinkHref = $(this).attr('href');
+
+      // If the href is null or undefined set it to a empty string
+      if (typeof thisLinkHref === 'undefined' || thisLinkHref === null) {
+          thisLinkHref = "";
+      }
+
+      if (thisLinkHref.toLowerCase().indexOf("index.php") >= 0){
+        let arr = thisLinkHref.split('=');
+
+        // Check if the ID exsist in the navigation
+        if ($('a[data-pageid="'+arr[1]+'"]').length) {
+          // Get the generated navItemHref
+          let navItemHref = $('a[data-pageid="'+arr[1]+'"]').attr('href');
+          // Update thisLink to the generated navItemHref
+          $(thisLink).attr('href', navItemHref);
         }
-      });
 
+      }
 
-    };
-    renderBox(options = {}){
-
-      let settings = Object.assign(
-        {},
-        this.defaults,
-        options
-      );
-      let that = this;
-      this.view.getData(settings, that).success(function(data){
-        data.meta = options;
-        markup = this.boxTemplate(data);
-        $('.library-basic-info').html(markup);
-      });
-    };
-  }
+    });
+  };
+}
 
 
   (function(Hiof, undefined) {
