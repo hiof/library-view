@@ -24,11 +24,11 @@
             {{#if child}}
             <ul class="dropdown-menu">
               {{#each child}}
-              <li><a href="#/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}" data-pageid="{{id}}">{{pagetitle}} {{#if child}}<span class="caret"></span>{{/if}}</a>
+              <li><a href="{{#if link}}{{link}}{{else}}#/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}{{/if}}" data-pageid="{{id}}" {{#if link}}target="{{link_target}}"{{/if}}>{{pagetitle}} {{#if child}}<span class="caret"></span>{{/if}}</a>
                 {{#if child}}
                 <ul class="dropdown-menu">
                   {{#each child}}
-                  <li><a href="#/{{urlize ../../../pagetitle}}-{{../../../id}}/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}" data-pageid="{{id}}">{{pagetitle}}</a></li>
+                  <li><a href="{{#if link}}{{link}}{{else}}#/{{urlize ../../../pagetitle}}-{{../../../id}}/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}{{/if}}" data-pageid="{{id}}" {{#if link}}target="{{link_target}}"{{/if}}>{{pagetitle}}</a></li>
                   {{/each}}
                 </ul>
                 {{/if}}
