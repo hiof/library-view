@@ -65,3 +65,11 @@ $ bower install
 ### Roadmap
 
 v1.0.0 - Initial library view
+
+#### Todo
+
+- [x] external links in nav
+- [ ] Zoom level, menu jumps, between mobile and desktop
+- [ ] links within pages to subpages
+- [ ] "lån en bibliotekar" - form
+- [ ] "menu footer" accross the site
