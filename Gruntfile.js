@@ -88,6 +88,8 @@ module.exports = function(grunt) {
               return filePath.replace(/^vendor\/accordion-view\/app\/templates\//, '').replace(/\.hbs$/, '');
             }else if (filePath.substring(7, 10) === 'pag') {
               return filePath.replace(/^vendor\/page-view\/app\/templates\//, '').replace(/\.hbs$/, '');
+            }else if (filePath.substring(7, 10) === 'foo') {
+              return filePath.replace(/^vendor\/footer-view\/app\/templates\//, '').replace(/\.hbs$/, '');
             }
           }else{
             return filePath.replace(/^app\/templates\//, '').replace(/\.hbs$/, '');
@@ -96,7 +98,7 @@ module.exports = function(grunt) {
       },
       all: {
         files: {
-          "build/templates.js": ["vendor/page-view/app/templates/page/show.hbs","vendor/accordion-view/app/templates/accordion/**/*.hbs","vendor/articles-view/app/templates/articles/**/*.hbs", "app/templates/**/*.hbs"]
+          "build/templates.js": ["vendor/page-view/app/templates/page/show.hbs","vendor/accordion-view/app/templates/accordion/**/*.hbs","vendor/articles-view/app/templates/articles/**/*.hbs","vendor/footer-view/app/templates/footer/**/*.hbs", "app/templates/**/*.hbs"]
         }
       }
     },

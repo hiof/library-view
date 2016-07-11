@@ -17,6 +17,7 @@
     "hiof-typography": "https://github.com/hiof/typography.git",
     "articles-view": "https://github.com/hiof/articles-view.git",
     "page-view": "https://github.com/hiof/page-view.git",
+    "footer-view": "https://github.com/hiof/page-footer-view.git#8f2ef653542f7282c7cae0eae45452bef45d0063",
     "accordion-view": "https://github.com/hiof/accordion-view.git",
     "jQuery-ajaxTransport-XDomainRequest": "https://github.com/MoonScript/jQuery-ajaxTransport-XDomainRequest.git",
     "detectjs": "https://github.com/darcyclarke/Detect.js.git"
