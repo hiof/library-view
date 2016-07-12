@@ -71,5 +71,5 @@ v1.0.0 - Initial library view
 - [x] external links in nav
 - [x] links within pages to subpages
 - [x] "menu footer" accross the site
+- [x] "lån en bibliotekar" - form
 - [ ] Zoom level, menu jumps, between mobile and desktop
-- [ ] "lån en bibliotekar" - form

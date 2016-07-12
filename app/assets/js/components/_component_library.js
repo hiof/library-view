@@ -36,7 +36,7 @@ class LibraryView {
         "type": "link",
         "attributes":{
           "name":"Lån en bibliotekar",
-          "url": "#/om-biblioteket-24812/lån-en-bibliotekar-24866"
+          "url": "https://www.survey-xact.no/LinkCollector?key=C9U3RTMR1515"
         }
       },{
         "id": 2,
