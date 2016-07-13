@@ -207,20 +207,6 @@ $grid-float-breakpoint: 104rem;
   }
 }
 
-
-//@import "../../../vendor/bootstrap/less/forms.less";
-//@import "../../../vendor/bootstrap/less/navs.less";
-//@import "../../../vendor/bootstrap/less/navbar.less";
-//@import "../../../vendor/bootstrap/less/buttons.less";
-//@import "../../../vendor/bootstrap/less/button-groups.less";
-//@import "../../../vendor/bootstrap/less/input-groups.less";
-//@import "../../../vendor/bootstrap/less/dropdowns.less";
-//@import "../../../vendor/bootstrap/less/forms.less";
-//@import "../../../vendor/bootstrap/less/breadcrumbs.less";
-//@import "../../../vendor/bootstrap/less/component-animations.less";
-
-
-
 .affix {
   position: fixed;
 }
@@ -548,6 +534,11 @@ ul li {
 
 // Breadcrumb hack
 @media screen and (max-width: 769px) {
+
+  #navigation-sidebar{
+    display: none;
+  }
+
   .navbar-social{
     border-top: 3px #fff solid;
   }
