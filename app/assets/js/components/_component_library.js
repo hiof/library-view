@@ -242,7 +242,8 @@ class LibraryView {
   (function(Hiof, undefined) {
     // On page load
     $(function(){
-      let library = new LibraryView();
+      let library = new LibraryView(),
+          view = new View();
       //Handlebars.registerHelper('each_upto', function(ary, max, options) {
       //  if (!ary || ary.length === 0)
       //  return options.inverse(this);
@@ -427,7 +428,7 @@ class LibraryView {
           hash = url + "";
           e.preventDefault();
           setTimeout(function() {
-            //scrollToElement(hash);
+            view.scrollToElement(hash);
           }, 200);
 
         }

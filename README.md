@@ -72,5 +72,6 @@ v1.0.0 - Initial library view
 - [x] links within pages to subpages
 - [x] "menu footer" accross the site
 - [x] "lån en bibliotekar" - form
-- [ ] Internal links within the document
-- [ ] Zoom level, menu jumps, between mobile and desktop
+- [x] Internal links within the document
+- [ ] Fix breadcrumb subpages
+- [ ] Zoom level, menu jumps, between mobile and desktop. Note: Not able to replicate, need further investigation.
