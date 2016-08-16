@@ -518,14 +518,20 @@ ul li {
   }
 }
 @media screen and (max-width: $grid-float-breakpoint) {
-  .navbar-toggle .button-label {
-    display: inline-block;
-    float: left;
-    //font-weight: bold;
-    line-height: 14px;
-    padding-right: 10px;
-    color: $text-color;
-  }
+
+    .library-portal .navbar-toggle{
+      float: none;
+      margin-left: 15px;
+      margin-right: 0;
+    }
+    .navbar-toggle .button-label {
+      display: inline-block;
+      float: right;
+      //font-weight: bold;
+      //line-height: 14px;
+      padding-left: 10px;
+      color: $text-color;
+    }
   .button-bars {
     display: inline-block;
     float: left;
@@ -533,11 +539,8 @@ ul li {
 }
 
 // Breadcrumb hack
-@media screen and (max-width: 769px) {
+@media screen and (max-width: 1039px) {
 
-  #navigation-sidebar{
-    display: none;
-  }
 
   .navbar-social{
     border-top: 3px #fff solid;
@@ -588,7 +591,7 @@ ul li {
 
 }
 
-@media screen and (min-width: 770px) {
+@media screen and (min-width: 1040px) {
   .navbar-social{
     position: absolute;
     top: -6rem;
