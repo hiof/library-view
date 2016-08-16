@@ -91,8 +91,11 @@ $grid-float-breakpoint: 104rem;
   .page-footer-view{
     text-align: center;
   }
-
+  .navbar-default{
+    background: transparent;
+  }
   .navbar-nav{
+    //background: transparent;
     li{
       margin-left: 0;
     }
