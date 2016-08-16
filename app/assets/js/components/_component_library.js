@@ -71,14 +71,14 @@ class LibraryView {
       //console.log(settings);
       //console.log('Data from renderLibrary');
       data.settings = settings;
-      console.log(that.pageFooterData);
+      //console.log(that.pageFooterData);
       // Populate templates with data
       let header = that.headerTemplate(data),
       breadcrumb = that.breadcrumbTemplate(data),
       navbar = that.navbarTemplate(data),
       content = that.contentTemplate(data),
       footer = that.pageFooterTemplate(that.pageFooterData);
-      console.log(footer);
+      //console.log(footer);
 
       $('.library-portal').html(header + navbar + content + footer + breadcrumb);
       $('.library-navigation').affix({
@@ -421,15 +421,21 @@ class LibraryView {
 
       $(document).on('click', '.library-portal a', function(e) {
         //e.preventDefault();
-        var url = $(this).attr('href');
+        let button = $(this),
+            url = $(button).attr('href');
+
         if (url.substring(0, 2) == "#/") {
           //debug('String starts with #/');
         } else if (url.substring(0, 1) == "#") {
-          hash = url + "";
-          e.preventDefault();
-          setTimeout(function() {
-            view.scrollToElement(hash);
-          }, 200);
+          if ($(button).attr('role') == 'tab') {
+            e.preventDefault();
+          }else{
+            hash = url + "";
+            e.preventDefault();
+            setTimeout(function() {
+              view.scrollToElement(hash);
+            }, 200);
+          }
 
         }
       });
@@ -450,7 +456,6 @@ class LibraryView {
       //  console.log(data);
       //  console.log("/Searching for....");
       //});
-
 
 
       $(window).on('indexrender', function (e) {
