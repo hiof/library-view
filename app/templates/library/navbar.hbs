@@ -1,0 +1,80 @@
+<section class="library-navigation lo-full" data-spy="affix" data-offset-top="20" data-offset-bottom="200">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#library-navbar-collapse" aria-expanded="false">
+
+          {{#ifCond settings.lang 'en'}}
+          <span class="button-label">Menu</span>
+          {{/ifCond}}
+          {{#ifCond settings.lang 'nb'}}
+          <span class="button-label">Meny</span>
+          {{/ifCond}}
+          <div class="button-bars">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </div>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="library-navbar-collapse">
+        <ul class="nav navbar-nav">
+          {{#each library}}
+          <li><a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{pagetitle}} {{#if child}}<span class="caret"></span>{{/if}}</a>
+            {{#if child}}
+            <ul class="dropdown-menu">
+              {{#each child}}
+              <li><a href="{{#if link}}{{link}}{{else}}#/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}{{/if}}" data-pageid="{{id}}" {{#if link}}target="{{link_target}}"{{/if}}>{{pagetitle}} {{#if child}}<span class="caret"></span>{{/if}}</a>
+                {{#if child}}
+                <ul class="dropdown-menu">
+                  {{#each child}}
+                  <li><a href="{{#if link}}{{link}}{{else}}#/{{urlize ../../../pagetitle}}-{{../../../id}}/{{urlize ../../pagetitle}}-{{../../id}}/{{urlize pagetitle}}-{{id}}{{/if}}" data-pageid="{{id}}" {{#if link}}target="{{link_target}}"{{/if}}>{{pagetitle}}</a></li>
+                  {{/each}}
+                </ul>
+                {{/if}}
+              </li>
+              {{/each}}
+            </ul>
+            {{/if}}
+          </li>
+          {{/each}}
+        </ul>
+
+        <div class="navbar-social">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select language <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://www2.hiof.no/biblioteket-ny">Norsk</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="http://www2.hiof.no/eng/library">English</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="http://www2.hiof.no/index.php?ID=19670">Français</a></li>
+                <li><a href="http://www2.hiof.no/index.php?ID=20914">Español</a></li>
+                <li><a href="http://www.hiof.no/nor/biblioteket/om-biblioteket/deutsch">Deutsch</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              {{#ifCond settings.lang 'en'}}
+              <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Social media<span class="caret"></span></a>
+              {{/ifCond}}
+              {{#ifCond settings.lang 'nb'}}
+              <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sosiale medier<span class="caret"></span></a>
+              {{/ifCond}}
+              <ul class="dropdown-menu">
+                <li><a  href="https://www.facebook.com/bibhiof">Facebook - HiØ, biblioteket</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a role="button" href="http://instagram.com/hiofbibfred">Instagram - HiØ, biblioteket Fredrikstad</a></li>
+                <li><a role="button" href="http://instagram.com/hiofbibhalden">Instagram - HiØ, biblioteket Halden</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a role="button" href="https://www.youtube.com/channel/UCfDe1CghuDZt0J7hxMvjrJQ">Youtube - HiØ, biblioteket</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>

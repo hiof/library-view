@@ -6,37 +6,37 @@ module.exports = function(grunt) {
   // Initiate grunt tasks
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    moment: require('moment'),
     // Tasks
-    less: {
-      standard: {
-        options: {
 
-        },
-        files: [{
-          expand: true,
-          cwd: 'app/assets/less/',
-          src: ['*.less'],
-          dest: 'build/',
-          ext: '.css'
-        }]
+
+    sass: {
+      options: {
+
+      },
+      dist: {
+        files: {
+          'build/library-view.css': 'app/assets/sass/library-view.scss'
+        }
       }
     },
+
     autoprefixer: {
       options: {
         browsers: ['last 2 versions', 'ie 8', 'ie 9']
-          //diff: 'build/config/*.diff'
+        //diff: 'build/config/*.diff'
       },
       prefix: {
         expand: true,
         //flatten: true,
         src: 'build/*.css'
-          //dest: 'tmp/css/prefixed/'
+        //dest: 'tmp/css/prefixed/'
       }
     },
     cssmin: {
       main: {
         options: {
-          banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %> */'
+          banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>, released: <%= moment().format("hh:mm DD-MM-YYYY") %>, license: <%= pkg.license %>  */'
         },
         expand: true,
         cwd: 'build',
@@ -46,13 +46,7 @@ module.exports = function(grunt) {
       }
     },
     copy: {
-      jstemplates: {
-        expand: true,
-        cwd: 'vendor/frontend/app/templates/',
-        src: '**',
-        dest: 'build/templates/',
-        filter: 'isFile'
-      },
+
       dist: {
         expand: true,
         cwd: 'build/',
@@ -62,27 +56,61 @@ module.exports = function(grunt) {
       }
     },
     clean: {
+      options: {
+        force: true
+      },
       dist: ['dist/**/*'],
       deploy: ['deploy/**/*'],
       build: ['build/**/*']
     },
-
-    jshint: {
+    eslint: {
       options: {
-        ignores: ['app/assets/js/templates/templates.js']
+        //format: require('babel-eslint'),
+        quiet: true
+        //rulePath: ['node_modules/eslint-rules-es2015/lib/index.js']
       },
-      files: ['app/assets/js/**/*.js', 'Gruntfile.js', 'bower.json', 'package.json']
+      target: ['app/assets/js/**/*.js']
     },
+    //jshint: {
+    //  options: {
+    //    ignores: ['app/assets/js/templates/templates.js']
+    //  },
+    //  files: ['app/assets/js/**/*.js', 'Gruntfile.js', 'bower.json', 'package.json']
+    //},
     handlebars: {
       options: {
         namespace: 'Hiof.Templates',
         processName: function(filePath) {
-          return filePath.replace(/^app\/templates\//, '').replace(/\.hbs$/, '');
+          if (filePath.substring(0, 4) === 'vend') {
+            if (filePath.substring(7, 10) === 'art') {
+              return filePath.replace(/^vendor\/articles-view\/app\/templates\//, '').replace(/\.hbs$/, '');
+            }else if (filePath.substring(7, 10) === 'acc') {
+              return filePath.replace(/^vendor\/accordion-view\/app\/templates\//, '').replace(/\.hbs$/, '');
+            }else if (filePath.substring(7, 10) === 'pag') {
+              return filePath.replace(/^vendor\/page-view\/app\/templates\//, '').replace(/\.hbs$/, '');
+            }else if (filePath.substring(7, 10) === 'foo') {
+              return filePath.replace(/^vendor\/footer-view\/app\/templates\//, '').replace(/\.hbs$/, '');
+            }
+          }else{
+            return filePath.replace(/^app\/templates\//, '').replace(/\.hbs$/, '');
+          }
         }
       },
       all: {
         files: {
-          "build/templates.js": ["app/templates/**/*.hbs"]
+          "build/templates.js": ["vendor/page-view/app/templates/page/show.hbs","vendor/accordion-view/app/templates/accordion/**/*.hbs","vendor/articles-view/app/templates/articles/**/*.hbs","vendor/footer-view/app/templates/footer/**/*.hbs", "app/templates/**/*.hbs"]
+        }
+      }
+    },
+    babel: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          'build/_view.js': 'vendor/frontend/app/assets/js/components/_view.js',
+          //'build/_article-view.js': 'vendor/articles-view/app/assets/js/_view.js',
+          'build/_<%= pkg.name %>.js': 'app/assets/js/components/_component_library.js'
         }
       }
     },
@@ -95,9 +123,16 @@ module.exports = function(grunt) {
           'vendor/jquery.scrollTo/jquery.scrollTo.js',
           'build/templates.js',
           'vendor/detectjs/detect.min.js',
-          'vendor/frontend/app/assets/js/components/__helper.js',
-          'vendor/frontend/app/assets/js/components/__options.js',
-          'app/assets/js/components/_component_library.js'
+          //'vendor/frontend/app/assets/js/components/_view.js',
+          'vendor/accordion-view/app/assets/js/_accordion-functions.js',
+          'vendor/bootstrap/js/tab.js',
+          'vendor/bootstrap/js/dropdown.js',
+          'vendor/bootstrap/js/affix.js',
+          'vendor/bootstrap/js/transition.js',
+          'vendor/bootstrap/js/collapse.js',
+          'build/_view.js',
+          //'build/_article-view.js'
+          'build/_<%= pkg.name %>.js'
         ],
         dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.js'
       }
@@ -105,9 +140,8 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         mangle: false,
-        //compress: true,
         preserveComments: false,
-        banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %> */'
+        banner: '/*! <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>, released: <%= moment().format("hh:mm DD-MM-YYYY") %>, license: <%= pkg.license %>  */'
       },
       main: {
         files: {
@@ -148,94 +182,94 @@ module.exports = function(grunt) {
           outputConfigDir: 'build/',
         },
         files: [{
-            assets: [{
-              src: ['build/<%= pkg.name %>.v<%= pkg.version %>.min.js'],
-              dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.js'
-            }],
-            key: 'assets',
-            dest: '',
-            type: 'js',
-            ext: '.min.js'
-          },
+          assets: [{
+            src: ['build/<%= pkg.name %>.v<%= pkg.version %>.min.js'],
+            dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.js'
+          }],
+          key: 'assets',
+          dest: '',
+          type: 'js',
+          ext: '.min.js'
+        },
 
-          {
-            assets: [{
-              src: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.css',
-              dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.css'
-            }],
-            key: 'assets',
-            dest: '',
-            type: 'css',
-            ext: '.min.css'
-          }
-        ]
+        {
+          assets: [{
+            src: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.css',
+            dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.css'
+          }],
+          key: 'assets',
+          dest: '',
+          type: 'css',
+          ext: '.min.css'
+        }
+      ]
+    }
+  },
+  secret: grunt.file.readJSON('secret.json'),
+  sftp: {
+    stage: {
+      files: {
+        "./": "dist/**"
+      },
+      options: {
+        path: '<%= secret.stage.path %>',
+        srcBasePath: "dist/",
+        host: '<%= secret.stage.host %>',
+        username: '<%= secret.stage.username %>',
+        password: '<%= secret.stage.password %>',
+        //privateKey: grunt.file.read('id_rsa'),
+        //passphrase: '<%= secret.passphrase %>',
+        showProgress: true,
+        createDirectories: true,
+        directoryPermissions: parseInt(755, 8)
       }
     },
-    secret: grunt.file.readJSON('secret.json'),
-    sftp: {
-      stage: {
-        files: {
-          "./": "dist/**"
-        },
-        options: {
-          path: '<%= secret.stage.path %>',
-          srcBasePath: "dist/",
-          host: '<%= secret.stage.host %>',
-          username: '<%= secret.stage.username %>',
-          password: '<%= secret.stage.password %>',
-          //privateKey: grunt.file.read('id_rsa'),
-          //passphrase: '<%= secret.passphrase %>',
-          showProgress: true,
-          createDirectories: true,
-          directoryPermissions: parseInt(755, 8)
-        }
+    prod: {
+      files: {
+        "./": "dist/**"
       },
-      prod: {
-        files: {
-          "./": "dist/**"
-        },
-        options: {
-          path: '<%= secret.prod.path %>',
-          srcBasePath: "dist/",
-          host: '<%= secret.prod.host %>',
-          username: '<%= secret.prod.username %>',
-          password: '<%= secret.prod.password %>',
-          //privateKey: grunt.file.read('id_rsa'),
-          //passphrase: '<%= secret.passphrase %>',
-          showProgress: true,
-          createDirectories: true,
-          directoryPermissions: parseInt(755, 8)
-        }
+      options: {
+        path: '<%= secret.prod.path %>',
+        srcBasePath: "dist/",
+        host: '<%= secret.prod.host %>',
+        username: '<%= secret.prod.username %>',
+        password: '<%= secret.prod.password %>',
+        //privateKey: grunt.file.read('id_rsa'),
+        //passphrase: '<%= secret.passphrase %>',
+        showProgress: true,
+        createDirectories: true,
+        directoryPermissions: parseInt(755, 8)
       }
     }
-    //watch: {
-    //  hbs: {
-    //    files: ['app/templates/**/*.hbs'],
-    //    tasks: ['handlebars', 'copy:jstemplates'],
-    //    options: {
-    //      livereload: true,
-    //    },
-    //  },
-    //  js: {
-    //    files: ['app/assets/js/**/*.js', 'app/assets/js/**/*.json'],
-    //    tasks: ['jshint', 'concat:scripts', 'versioning:build'],
-    //    options: {
-    //      livereload: true,
-    //    },
-    //  },
-    //}
+  }
+  //watch: {
+  //  hbs: {
+  //    files: ['app/templates/**/*.hbs'],
+  //    tasks: ['handlebars', 'copy:jstemplates'],
+  //    options: {
+  //      livereload: true,
+  //    },
+  //  },
+  //  js: {
+  //    files: ['app/assets/js/**/*.js', 'app/assets/js/**/*.json'],
+  //    tasks: ['jshint', 'concat:scripts', 'versioning:build'],
+  //    options: {
+  //      livereload: true,
+  //    },
+  //  },
+  //}
 
-  });
+});
 
-  grunt.registerTask('subtaskJs', ['handlebars','jshint', 'concat:scripts', 'uglify', 'copy:jstemplates']);
-  grunt.registerTask('subtaskCss', ['less', 'autoprefixer', 'cssmin']);
+grunt.registerTask('subtaskJs', ['eslint','handlebars','babel', 'concat:scripts', 'uglify']);
+grunt.registerTask('subtaskCss', ['sass', 'autoprefixer', 'cssmin']);
 
-  grunt.registerTask('build', ['clean:build', 'clean:dist', 'subtaskJs', 'subtaskCss', 'versioning:build']);
-  grunt.registerTask('deploy', ['clean:build', 'clean:dist', 'subtaskJs', 'subtaskCss', 'versioning:deploy', 'copy:dist']);
+grunt.registerTask('build', ['clean:build', 'clean:dist', 'subtaskJs', 'subtaskCss', 'versioning:build']);
+grunt.registerTask('deploy', ['clean:build', 'clean:dist', 'subtaskJs', 'subtaskCss', 'versioning:deploy', 'copy:dist']);
 
 
 
-  grunt.registerTask('deploy-staging2', ['deploy', 'sftp:stage']);
-  grunt.registerTask('deploy-www2', ['deploy', 'sftp:prod']);
+grunt.registerTask('deploy-stage2', ['deploy', 'sftp:stage']);
+grunt.registerTask('deploy-prod2', ['deploy', 'sftp:prod']);
 
 };
