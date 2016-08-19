@@ -236,6 +236,17 @@ class LibraryView {
 
       });
     };
+
+    updateAnalytics(){
+      //console.log('analaytics updated...');
+      // Send page update to hiof.no analytics
+      ga('set', 'page', document.location.href);
+      ga('send', 'pageview');
+
+      // Send page update to library analytics
+      ga('library.set', 'page', document.location.href);
+      ga('library.send', 'pageview');
+    };
   }
 
 
@@ -244,6 +255,8 @@ class LibraryView {
     $(function(){
       let library = new LibraryView(),
           view = new View();
+
+      Hiof.libraryView = library;
       //Handlebars.registerHelper('each_upto', function(ary, max, options) {
       //  if (!ary || ary.length === 0)
       //  return options.inverse(this);
@@ -328,15 +341,24 @@ class LibraryView {
       // Router
 
 
-      Path.map("#/portal").to(function() {
+      Path.map("#/portal").enter(function() {
+        //console.log('page entered..');
+        library.updateAnalytics();
+      }).to(function() {
         library.renderLibrary();
       });
-      Path.map("#/portal/").to(function() {
+      Path.map("#/portal/").enter(function() {
+        //console.log('page entered..');
+        library.updateAnalytics();
+      }).to(function() {
         library.renderLibrary();
       });
 
 
-      Path.map("#/:articletitle/a/:articleid").to(function() {
+      Path.map("#/:articletitle/a/:articleid").enter(function() {
+        //console.log('page entered..');
+        library.updateAnalytics();
+      }).to(function() {
         var opt = {};
         opt.template = 'article';
         opt.pageId = this.params.articleid;
@@ -347,7 +369,7 @@ class LibraryView {
         library.renderLibrary(opt);
       });
       Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
-
+        library.updateAnalytics();
       }).to(function() {
         var opt = {};
         var str = this.params.pagetitle3;
@@ -362,7 +384,8 @@ class LibraryView {
         library.renderLibrary(opt);
       });
       Path.map("#/:pagetitle/:pagetitle2").enter(function() {
-
+        //console.log('page entered..');
+        library.updateAnalytics();
       }).to(function() {
         var opt = {};
         var str = this.params.pagetitle2;
@@ -376,7 +399,7 @@ class LibraryView {
         library.renderLibrary(opt);
       });
       Path.map("#/:pagetitle").enter(function() {
-
+        library.updateAnalytics();
       }).to(function() {
         var opt = {};
         var str = this.params.pagetitle;
