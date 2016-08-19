@@ -59,26 +59,19 @@ class LibraryView {
       {},
       this.defaults
     );
-    //console.log(this.i18n);
     //this.view.i18n.success(function(data){
     //  this.i18n = data;
     //});
     let indexRender = $.Event("indexrender");
     let that = this;
     this.view.getData(settings, that).success(function(data){
-      //data.meta = settings;
-      //console.log('Settings from renderLibrary');
-      //console.log(settings);
-      //console.log('Data from renderLibrary');
       data.settings = settings;
-      //console.log(that.pageFooterData);
       // Populate templates with data
       let header = that.headerTemplate(data),
       breadcrumb = that.breadcrumbTemplate(data),
       navbar = that.navbarTemplate(data),
       content = that.contentTemplate(data),
       footer = that.pageFooterTemplate(that.pageFooterData);
-      //console.log(footer);
 
       $('.library-portal').html(header + navbar + content + footer + breadcrumb);
       $('.library-navigation').affix({
@@ -111,7 +104,6 @@ class LibraryView {
       this.defaults
     );
     data.settings = settings;
-    //console.log(data);
     let articleRender = $.Event("articlerender");
     let boxRender = $.Event("boxrender");
     let information = this.informationTemplate(),
@@ -151,7 +143,6 @@ class LibraryView {
 
   renderPages(options = {}) {
     let that = this;
-    //console.log(that);
 
     let settings = Object.assign(
       {},
@@ -168,10 +159,8 @@ class LibraryView {
 
         data.page[0].specialfunction = accordionView;
       }
-      //console.log(data);
       let markup = this.pageShowTemplate(data);
       let breadcrumb = this.breadcrumbTemplate(data);
-      //console.log(markup);
       $('.library-content').html(markup).addClass('lo-auron-2-3');
       $('.library-breadcrumb').html(breadcrumb);
       that.view.scrollToElement('.library-portal');
@@ -236,6 +225,15 @@ class LibraryView {
 
       });
     };
+    // Update google analytics on page-navigation
+    updateAnalytics(){
+      // Send page update to hiof.no analytics
+      ga('set', 'page', document.location.href);
+      ga('send', 'pageview');
+      // Send page update to library analytics
+      ga('library.set', 'page', document.location.href);
+      ga('library.send', 'pageview');
+    };
   }
 
 
@@ -244,6 +242,8 @@ class LibraryView {
     $(function(){
       let library = new LibraryView(),
           view = new View();
+
+      Hiof.libraryView = library;
       //Handlebars.registerHelper('each_upto', function(ary, max, options) {
       //  if (!ary || ary.length === 0)
       //  return options.inverse(this);
@@ -328,15 +328,21 @@ class LibraryView {
       // Router
 
 
-      Path.map("#/portal").to(function() {
+      Path.map("#/portal").enter(function() {
+        library.updateAnalytics();
+      }).to(function() {
         library.renderLibrary();
       });
-      Path.map("#/portal/").to(function() {
+      Path.map("#/portal/").enter(function() {
+        library.updateAnalytics();
+      }).to(function() {
         library.renderLibrary();
       });
 
 
-      Path.map("#/:articletitle/a/:articleid").to(function() {
+      Path.map("#/:articletitle/a/:articleid").enter(function() {
+        library.updateAnalytics();
+      }).to(function() {
         var opt = {};
         opt.template = 'article';
         opt.pageId = this.params.articleid;
@@ -347,7 +353,7 @@ class LibraryView {
         library.renderLibrary(opt);
       });
       Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
-
+        library.updateAnalytics();
       }).to(function() {
         var opt = {};
         var str = this.params.pagetitle3;
@@ -362,7 +368,7 @@ class LibraryView {
         library.renderLibrary(opt);
       });
       Path.map("#/:pagetitle/:pagetitle2").enter(function() {
-
+        library.updateAnalytics();
       }).to(function() {
         var opt = {};
         var str = this.params.pagetitle2;
@@ -376,7 +382,7 @@ class LibraryView {
         library.renderLibrary(opt);
       });
       Path.map("#/:pagetitle").enter(function() {
-
+        library.updateAnalytics();
       }).to(function() {
         var opt = {};
         var str = this.params.pagetitle;
