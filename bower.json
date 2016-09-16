@@ -14,7 +14,7 @@
     "frontend": "https://github.com/hiof/frontend.git",
     "hiof-layout": "https://github.com/hiof/layout.git",
     "hiof-colors": "https://github.com/hiof/colors.git",
-    "hiof-typography": "https://github.com/hiof/typography.git",
+    "hiof-typography": "https://github.com/hiof/typography.git#v1.4.0-beta.2",
     "articles-view": "https://github.com/hiof/articles-view.git",
     "page-view": "https://github.com/hiof/page-view.git",
     "footer-view": "https://github.com/hiof/page-footer-view.git#8f2ef653542f7282c7cae0eae45452bef45d0063",

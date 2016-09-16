@@ -1,17 +1,14 @@
 class LibraryView {
   constructor() {
     this.view = new View();
-    this.headerTemplate = Hiof.Templates['library/header'];
     this.breadcrumbTemplate = Hiof.Templates['library/breadcrumb'];
-    this.navbarTemplate = Hiof.Templates['library/navbar'];
     this.informationTemplate = Hiof.Templates['library/information'];
-    this.searchTemplate = Hiof.Templates['library/search'];
     this.newsTemplate = Hiof.Templates['library/news'];
     this.postSingleTemplate = Hiof.Templates['articles/post-single'];
     this.postPostsTemplate = Hiof.Templates['articles/posts'];
     this.pageShowTemplate = Hiof.Templates['page/show'];
     this.boxTemplate = Hiof.Templates['library/box'];
-    this.contentTemplate = Hiof.Templates['library/content'];
+
     this.pageFooterTemplate = Hiof.Templates['footer/pageFooter'];
     this.defaults = {
       // These are the defaults.
@@ -66,14 +63,16 @@ class LibraryView {
     let that = this;
     this.view.getData(settings, that).success(function(data){
       data.settings = settings;
+      //console.log(data);
       // Populate templates with data
-      let header = that.headerTemplate(data),
-      breadcrumb = that.breadcrumbTemplate(data),
-      navbar = that.navbarTemplate(data),
-      content = that.contentTemplate(data),
+      let breadcrumb = that.breadcrumbTemplate(data),
       footer = that.pageFooterTemplate(that.pageFooterData);
-
-      $('.library-portal').html(header + navbar + content + footer + breadcrumb);
+      //console.log(header + navbar + content + footer + breadcrumb);
+      $('#nav').addClass('nav navbar-nav');
+      $('#nav .parent').attr('data-toggle', 'dropdown').append('<span class="caret"></span>');
+      $('#nav .daddy').append('<span class="caret"></span>');
+      $('#nav ul').addClass('dropdown-menu');
+      $('.library-portal .library-content').html(footer);
       $('.library-navigation').affix({
         offset: {
           top: 180,
@@ -107,12 +106,11 @@ class LibraryView {
     let articleRender = $.Event("articlerender");
     let boxRender = $.Event("boxrender");
     let information = this.informationTemplate(),
-    search = this.searchTemplate(data),
     news = this.newsTemplate(data);
-    $('.library-content').html(information + search + news);
+    $('.library-portal .library-content').prepend(information + news);
     $(window).trigger(articleRender);
     $(window).trigger(boxRender);
-
+    $('.library-portal').removeClass('loader').addClass('loaded');
 
   };
   renderArticles(options = {}) {
@@ -141,49 +139,49 @@ class LibraryView {
 
   };
 
-  renderPages(options = {}) {
-    let that = this;
-
-    let settings = Object.assign(
-      {},
-      this.defaults,
-      options
-    );
-
-
-    this.view.getData(settings, that).success(function(data){
-      data.meta = settings;
-      data.meta.title = data.page[0].pagetitle;
-      if (data.page[0].specialfunction) {
-        let accordionView = '<div id="accordion" data-footer="false" data-page-tree-id="'+ data.page[0].id +'"></div>';
-
-        data.page[0].specialfunction = accordionView;
-      }
-      let markup = this.pageShowTemplate(data);
-      let breadcrumb = this.breadcrumbTemplate(data);
-      $('.library-content').html(markup).addClass('lo-auron-2-3');
-      $('.library-breadcrumb').html(breadcrumb);
-      that.view.scrollToElement('.library-portal');
-      if (data.page[0].specialfunction) {
-        Hiof.reloadAccordion();
-        setTimeout(function(){
-          if ($('#accordion').length) {
-            //$('.panel-collapse').first().collapse('show');
-            // Manipulate page-links
-            that.fixContentLinksWithinLibrary();
-          }}, 100);
-        }else{
-
-
-          // Manipulate page-links
-          that.fixContentLinksWithinLibrary();
-        }
-
-        // Highlight the current page-path in the navigation
-        $('a[data-pageid="'+data.meta.id+'"]').parentsUntil($( "ul.navbar-nav" ),'li').addClass('active');
-
-      });
-    };
+  //renderPages(options = {}) {
+  //  let that = this;
+//
+  //  let settings = Object.assign(
+  //    {},
+  //    this.defaults,
+  //    options
+  //  );
+//
+//
+  //  this.view.getData(settings, that).success(function(data){
+  //    data.meta = settings;
+  //    data.meta.title = data.page[0].pagetitle;
+  //    if (data.page[0].specialfunction) {
+  //      let accordionView = '<div id="accordion" data-footer="false" data-page-tree-id="'+ data.page[0].id +'"></div>';
+//
+  //      data.page[0].specialfunction = accordionView;
+  //    }
+  //    let markup = this.pageShowTemplate(data);
+  //    let breadcrumb = this.breadcrumbTemplate(data);
+  //    $('.library-content').html(markup).addClass('lo-auron-2-3');
+  //    $('.library-breadcrumb').html(breadcrumb);
+  //    that.view.scrollToElement('.library-portal');
+  //    if (data.page[0].specialfunction) {
+  //      Hiof.reloadAccordion();
+  //      setTimeout(function(){
+  //        if ($('#accordion').length) {
+  //          //$('.panel-collapse').first().collapse('show');
+  //          // Manipulate page-links
+  //          that.fixContentLinksWithinLibrary();
+  //        }}, 100);
+  //      }else{
+//
+//
+  //        // Manipulate page-links
+  //        that.fixContentLinksWithinLibrary();
+  //      }
+//
+  //      // Highlight the current page-path in the navigation
+  //      $('a[data-pageid="'+data.meta.id+'"]').parentsUntil($( "ul.navbar-nav" ),'li').addClass('active');
+//
+  //    });
+  //  };
     renderBox(options = {}){
 
       let settings = Object.assign(
@@ -199,40 +197,40 @@ class LibraryView {
       });
     };
 
-    fixContentLinksWithinLibrary(){
-
-      $('.library-content a').each(function(){
-        let thisLink = $(this);
-        let thisLinkHref = $(this).attr('href');
-
-        // If the href is null or undefined set it to a empty string
-        if (typeof thisLinkHref === 'undefined' || thisLinkHref === null) {
-          thisLinkHref = "";
-        }
-
-        if (thisLinkHref.toLowerCase().indexOf("index.php") >= 0){
-          let arr = thisLinkHref.split('=');
-
-          // Check if the ID exsist in the navigation
-          if ($('a[data-pageid="'+arr[1]+'"]').length) {
-            // Get the generated navItemHref
-            let navItemHref = $('a[data-pageid="'+arr[1]+'"]').attr('href');
-            // Update thisLink to the generated navItemHref
-            $(thisLink).attr('href', navItemHref);
-          }
-
-        }
-
-      });
-    };
+    //fixContentLinksWithinLibrary(){
+    //
+    //  $('.library-content a').each(function(){
+    //    let thisLink = $(this);
+    //    let thisLinkHref = $(this).attr('href');
+    //
+    //    // If the href is null or undefined set it to a empty string
+    //    if (typeof thisLinkHref === 'undefined' || thisLinkHref === null) {
+    //      thisLinkHref = "";
+    //    }
+    //
+    //    if (thisLinkHref.toLowerCase().indexOf("index.php") >= 0){
+    //      let arr = thisLinkHref.split('=');
+    //
+    //      // Check if the ID exsist in the navigation
+    //      if ($('a[data-pageid="'+arr[1]+'"]').length) {
+    //        // Get the generated navItemHref
+    //        let navItemHref = $('a[data-pageid="'+arr[1]+'"]').attr('href');
+    //        // Update thisLink to the generated navItemHref
+    //        $(thisLink).attr('href', navItemHref);
+    //      }
+    //
+    //    }
+    //
+    //  });
+    //};
     // Update google analytics on page-navigation
     updateAnalytics(){
       // Send page update to hiof.no analytics
-      ga('set', 'page', document.location.href);
-      ga('send', 'pageview');
-      // Send page update to library analytics
-      ga('library.set', 'page', document.location.href);
-      ga('library.send', 'pageview');
+      //   ga('set', 'page', document.location.href);
+      //   ga('send', 'pageview');
+      //   // Send page update to library analytics
+      //   ga('library.set', 'page', document.location.href);
+      //   ga('library.send', 'pageview');
     };
   }
 
@@ -327,7 +325,6 @@ class LibraryView {
 
       // Router
 
-
       Path.map("#/portal").enter(function() {
         library.updateAnalytics();
       }).to(function() {
@@ -352,49 +349,50 @@ class LibraryView {
         //loadData(opt);
         library.renderLibrary(opt);
       });
-      Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
-        library.updateAnalytics();
-      }).to(function() {
-        var opt = {};
-        var str = this.params.pagetitle3;
-        var n = str.lastIndexOf('-');
-        var result = str.substring(n + 1);
-        opt.template = 'page';
-        opt.id = result;
-        opt.testId = result;
-        opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2),encodeURI(this.params.pagetitle3)];
-        opt.url = 'http://hiof.no/api/v2/page/';
-        //loadData(opt);
-        library.renderLibrary(opt);
-      });
-      Path.map("#/:pagetitle/:pagetitle2").enter(function() {
-        library.updateAnalytics();
-      }).to(function() {
-        var opt = {};
-        var str = this.params.pagetitle2;
-        var n = str.lastIndexOf('-');
-        var result = str.substring(n + 1);
-        opt.template = 'page';
-        opt.id = result;
-        opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2)];
-        opt.url = 'http://hiof.no/api/v2/page/';
-        //loadData(opt);
-        library.renderLibrary(opt);
-      });
-      Path.map("#/:pagetitle").enter(function() {
-        library.updateAnalytics();
-      }).to(function() {
-        var opt = {};
-        var str = this.params.pagetitle;
-        var n = str.lastIndexOf('-');
-        var result = str.substring(n + 1);
-        opt.template = 'page';
-        opt.id = result;
-        opt.pagetitle = encodeURI(this.params.pagetitle);
-        opt.url = 'http://hiof.no/api/v2/page/';
-        //loadData(opt);
-        library.renderLibrary(opt);
-      });
+
+      //Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
+      //  library.updateAnalytics();
+      //}).to(function() {
+      //  var opt = {};
+      //  var str = this.params.pagetitle3;
+      //  var n = str.lastIndexOf('-');
+      //  var result = str.substring(n + 1);
+      //  opt.template = 'page';
+      //  opt.id = result;
+      //  opt.testId = result;
+      //  opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2),encodeURI(this.params.pagetitle3)];
+      //  opt.url = 'http://hiof.no/api/v2/page/';
+      //  //loadData(opt);
+      //  library.renderLibrary(opt);
+      //});
+      //Path.map("#/:pagetitle/:pagetitle2").enter(function() {
+      //  library.updateAnalytics();
+      //}).to(function() {
+      //  var opt = {};
+      //  var str = this.params.pagetitle2;
+      //  var n = str.lastIndexOf('-');
+      //  var result = str.substring(n + 1);
+      //  opt.template = 'page';
+      //  opt.id = result;
+      //  opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2)];
+      //  opt.url = 'http://hiof.no/api/v2/page/';
+      //  //loadData(opt);
+      //  library.renderLibrary(opt);
+      //});
+      //Path.map("#/:pagetitle").enter(function() {
+      //  library.updateAnalytics();
+      //}).to(function() {
+      //  var opt = {};
+      //  var str = this.params.pagetitle;
+      //  var n = str.lastIndexOf('-');
+      //  var result = str.substring(n + 1);
+      //  opt.template = 'page';
+      //  opt.id = result;
+      //  opt.pagetitle = encodeURI(this.params.pagetitle);
+      //  opt.url = 'http://hiof.no/api/v2/page/';
+      //  //loadData(opt);
+      //  library.renderLibrary(opt);
+      //});
 
       Path.map("#/aktuelt").to(function() {
         let opt = {};
@@ -406,7 +404,9 @@ class LibraryView {
         library.renderLibrary(opt);
 
       });
-      Path.map("#/").to(function(){
+      Path.map("#/").enter(function() {
+        library.updateAnalytics();
+      }).to(function(){
         library.renderLibrary();
       });
 
