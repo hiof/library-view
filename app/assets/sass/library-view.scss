@@ -16,7 +16,7 @@
 
 
 // config:
-$grid-float-breakpoint: 104rem;
+$grid-float-breakpoint: 880px;
 
 // Old-page styling overrides
 
@@ -54,7 +54,9 @@ $grid-float-breakpoint: 104rem;
   text-transform: inherit;
   //font-size: 16px;
 }
-
+#footer{
+  float: left;
+}
 
 
 
@@ -106,6 +108,9 @@ $grid-float-breakpoint: 104rem;
 
   // Animations
   .sk-cube-grid {
+    position: absolute;
+    top: 200px;
+    left: 50%;
     width: 100px;
     height: 100px;
     margin: 100px auto;
@@ -180,6 +185,20 @@ $grid-float-breakpoint: 104rem;
     }
   }
 
+  &.loader{
+    .library-header,
+    .library-navigation,
+    .library-search,
+    .library-content{
+      opacity: 0;
+      transition: opacity 5s linear;
+    }
+  }
+  &.loaded{
+    .sk-cube-grid{
+      display: none;
+    }
+  }
 
 }
 // Copy from bootstrap/scaffolding
@@ -254,6 +273,7 @@ label{
     left:7rem;
     top: 4.2rem;
     color: #111;
+    font-weight: 300;
   }
   &.alt{
     svg,.navbar-brand__hiof{
