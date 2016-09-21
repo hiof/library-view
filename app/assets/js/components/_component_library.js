@@ -110,8 +110,9 @@ class LibraryView {
     $('.library-portal .library-content').prepend(information + news);
     $(window).trigger(articleRender);
     $(window).trigger(boxRender);
-    $('.library-portal').removeClass('loader').addClass('loaded');
+    Hiof.reloadAccordion();
 
+    $('.library-portal').removeClass('loader').addClass('loaded');
   };
   renderArticles(options = {}) {
     let markup;
@@ -325,6 +326,14 @@ class LibraryView {
 
       // Router
 
+      Path.map("#/").enter(function() {
+        library.updateAnalytics();
+      }).to(function() {
+        library.renderLibrary();
+      });
+
+
+
       Path.map("#/portal").enter(function() {
         library.updateAnalytics();
       }).to(function() {
@@ -412,7 +421,7 @@ class LibraryView {
 
       initatePathLibrary = function() {
         // Load root path if no path is active
-        Path.root("#/portal");
+        Path.root("#/");
       };
 
       if (typeof Hiof.meta === 'undefined') {
