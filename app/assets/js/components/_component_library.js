@@ -117,6 +117,7 @@ class LibraryView {
   renderArticles(options = {}) {
     let markup;
     let that = this;
+    //console.log(options);
     //this.renderLibrary(options);
     this.view.getData(options, that).success(function(data){
 
@@ -124,16 +125,39 @@ class LibraryView {
         data.meta = options;
         data.meta.title = data.posts[0].articleTitle;
         markup = that.postSingleTemplate(data);
-        let breadcrumb = that.breadcrumbTemplate(data);
-        $('#library-breadcrumb').html(breadcrumb);
-        $('.library-content').addClass('lo-auron-2-3').html(markup);
-        that.view.scrollToElement('.library-portal');
+        //let breadcrumb = that.breadcrumbTemplate(data);
+        //$('#library-breadcrumb').html(breadcrumb);
+        $('#nav').addClass('nav navbar-nav');
+        $('#nav .parent').attr('data-toggle', 'dropdown').append('<span class="caret"></span>');
+        $('#nav .daddy').append('<span class="caret"></span>');
+        $('#nav ul').addClass('dropdown-menu');
+        //console.log('single article is supposed to be added to the page...');
+        //$('.library-content-page > article > h1').remove();
+        $('.library-content-page').html(markup);
+        $('.library-portal').removeClass('loader').addClass('loaded');
+        //that.view.scrollToElement('.library-portal');
       } else if (options.template === 'articles') {
         markup = that.postPostsTemplate(data);
-        $('.library-content').html(markup);
+        $('.library-content-page .outlet').html(markup);
       } else {
-        markup = that.postPostsTemplate(data);
-        $('.library-news .outlet').html(markup);
+        console.log('data from renderArticles else (index?)');
+        data.meta = options;
+
+        console.log(data);
+        if ($('.library-news').length) {
+
+          $(data.posts).each(function(){
+            this.articleDestinationAddressInternal = '/nor/biblioteket/om-biblioteket/aktuelt';
+          });
+          markup = that.postPostsTemplate(data);
+          $('.library-news .outlet').html(markup);
+        }else{
+          $(data.posts).each(function(){
+            this.articleLoClass = 'lo-half';
+          });
+          markup = that.postPostsTemplate(data);
+          $('.library-content-page .outlet').html(markup);
+        }
       }
 
     });
@@ -356,7 +380,7 @@ class LibraryView {
         //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
         opt.url = 'http://hiof.no/api/v1/articles/';
         //loadData(opt);
-        library.renderLibrary(opt);
+        library.renderArticles(opt);
       });
 
       //Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
@@ -472,6 +496,23 @@ class LibraryView {
       //  console.log("/Searching for....");
       //});
 
+
+      //if($('.article-load').length){
+      //  //console.log('.article load exists..');
+      //
+      //  let opt = {};
+      //  opt.template = 'articles';
+      //  opt.url = 'http://hiof.no/api/v1/articles/';
+      //  opt.category = '20';
+      //  opt.articleLoClass = 'lo-half';
+      //  //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
+      //  opt.pageSize = '4';
+      //
+      //
+      //  library.renderArticles(opt);
+      //
+      //
+      //}
 
       $(window).on('indexrender', function (e) {
         library.renderIndex();
