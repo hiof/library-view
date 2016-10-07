@@ -26,7 +26,7 @@ class LibraryView {
         "type": "link",
         "attributes":{
           "name":"Kontakt biblioteket",
-          "url": "#/om-biblioteket-24812/kontakt-biblioteket-24859"
+          "url": "http://www2.hiof.no/index.php?&ID=24859"
         }
       },{
         "id": 1,
@@ -40,7 +40,7 @@ class LibraryView {
         "type": "link",
         "attributes":{
           "name":"Åpningstider for biblioteket",
-          "url": "#/om-biblioteket-24812/åpningstider-24877"
+          "url": "http://www2.hiof.no/index.php?&ID=24877"
         }
       }
     ]};
