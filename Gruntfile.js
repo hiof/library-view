@@ -269,7 +269,7 @@ grunt.registerTask('deploy', ['clean:build', 'clean:dist', 'subtaskJs', 'subtask
 
 
 
-grunt.registerTask('deploy-stage2', ['deploy', 'sftp:stage']);
+grunt.registerTask('deploy-staging2', ['deploy', 'sftp:stage']);
 grunt.registerTask('deploy-prod2', ['deploy', 'sftp:prod']);
 
 };

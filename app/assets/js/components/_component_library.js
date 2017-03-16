@@ -16,7 +16,7 @@ class LibraryView {
       layered: true,
       visible: true,
       server: 'www2',
-      url: 'http://hiof.no/api/v2/libraryservices/',
+      url: '//www.hiof.no/api/v2/libraryservices/',
       template: null,
       lang: this.view.ln,
     };
@@ -378,7 +378,7 @@ class LibraryView {
         opt.pageId = this.params.articleid;
         opt.articleLoClass = 'lo-auron-2-3';
         //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
-        opt.url = 'http://hiof.no/api/v1/articles/';
+        opt.url = '//www.hiof.no/api/v1/articles/';
         //loadData(opt);
         library.renderArticles(opt);
       });
@@ -430,7 +430,7 @@ class LibraryView {
       Path.map("#/aktuelt").to(function() {
         let opt = {};
         opt.template = 'articles';
-        opt.url = 'http://hiof.no/api/v1/articles/';
+        opt.url = '//www.hiof.no/api/v1/articles/';
         opt.category = '20';
         opt.articleLoClass = 'lo-quarter';
         opt.pageSize = '40';
@@ -521,7 +521,7 @@ class LibraryView {
       $(window).on('articlerender', function (e) {
         let opt = {};
         opt.template = 'article-index';
-        opt.url = 'http://hiof.no/api/v1/articles/';
+        opt.url = '//www.hiof.no/api/v1/articles/';
         opt.category = '20';
         opt.articleLoClass = 'lo-quarter';
         //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
@@ -540,7 +540,7 @@ class LibraryView {
       $(window).on('boxrender', function (e) {
 
         var opt = {};
-        opt.url = 'http://hiof.no/api/v1/box/';
+        opt.url = '//www.hiof.no/api/v1/box/';
         opt.server = "www2";
         if ($('html').attr('lang') == 'en') {
           opt.id = "1039";
