@@ -109,7 +109,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           'build/_view.js': 'vendor/frontend/app/assets/js/components/_view.js',
-          //'build/_article-view.js': 'vendor/articles-view/app/assets/js/_view.js',
+          'build/_accordion-functions.js': 'vendor/accordion-view/app/assets/js/_accordion-functions.js',
           'build/_<%= pkg.name %>.js': 'app/assets/js/components/_component_library.js'
         }
       }
@@ -123,15 +123,13 @@ module.exports = function(grunt) {
           'vendor/jquery.scrollTo/jquery.scrollTo.js',
           'build/templates.js',
           'vendor/detectjs/detect.min.js',
-          //'vendor/frontend/app/assets/js/components/_view.js',
-          'vendor/accordion-view/app/assets/js/_accordion-functions.js',
           'vendor/bootstrap/js/tab.js',
           'vendor/bootstrap/js/dropdown.js',
           'vendor/bootstrap/js/affix.js',
           'vendor/bootstrap/js/transition.js',
           'vendor/bootstrap/js/collapse.js',
           'build/_view.js',
-          //'build/_article-view.js'
+          'build/_accordion-functions.js',
           'build/_<%= pkg.name %>.js'
         ],
         dest: 'build/<%= pkg.name %>.v<%= pkg.version %>.min.js'

@@ -1,6 +1,7 @@
 class LibraryView {
   constructor() {
     this.view = new View();
+    this.accordionView = new AccordionView();
     this.breadcrumbTemplate = Hiof.Templates['library/breadcrumb'];
     this.informationTemplate = Hiof.Templates['library/information'];
     this.newsTemplate = Hiof.Templates['library/news'];
@@ -110,8 +111,8 @@ class LibraryView {
     $('.library-portal .library-content').prepend(information + news);
     $(window).trigger(articleRender);
     $(window).trigger(boxRender);
-    Hiof.reloadAccordion();
-
+    //Hiof.reloadAccordion();
+    this.accordionView.renderAccordion();
     $('.library-portal').removeClass('loader').addClass('loaded');
   };
   renderArticles(options = {}) {
@@ -140,10 +141,10 @@ class LibraryView {
         markup = that.postPostsTemplate(data);
         $('.library-content-page .outlet').html(markup);
       } else {
-        console.log('data from renderArticles else (index?)');
+        //console.log('data from renderArticles else (index?)');
         data.meta = options;
 
-        console.log(data);
+        //console.log(data);
         if ($('.library-news').length) {
 
           $(data.posts).each(function(){
@@ -164,49 +165,6 @@ class LibraryView {
 
   };
 
-  //renderPages(options = {}) {
-  //  let that = this;
-//
-  //  let settings = Object.assign(
-  //    {},
-  //    this.defaults,
-  //    options
-  //  );
-//
-//
-  //  this.view.getData(settings, that).success(function(data){
-  //    data.meta = settings;
-  //    data.meta.title = data.page[0].pagetitle;
-  //    if (data.page[0].specialfunction) {
-  //      let accordionView = '<div id="accordion" data-footer="false" data-page-tree-id="'+ data.page[0].id +'"></div>';
-//
-  //      data.page[0].specialfunction = accordionView;
-  //    }
-  //    let markup = this.pageShowTemplate(data);
-  //    let breadcrumb = this.breadcrumbTemplate(data);
-  //    $('.library-content').html(markup).addClass('lo-auron-2-3');
-  //    $('.library-breadcrumb').html(breadcrumb);
-  //    that.view.scrollToElement('.library-portal');
-  //    if (data.page[0].specialfunction) {
-  //      Hiof.reloadAccordion();
-  //      setTimeout(function(){
-  //        if ($('#accordion').length) {
-  //          //$('.panel-collapse').first().collapse('show');
-  //          // Manipulate page-links
-  //          that.fixContentLinksWithinLibrary();
-  //        }}, 100);
-  //      }else{
-//
-//
-  //        // Manipulate page-links
-  //        that.fixContentLinksWithinLibrary();
-  //      }
-//
-  //      // Highlight the current page-path in the navigation
-  //      $('a[data-pageid="'+data.meta.id+'"]').parentsUntil($( "ul.navbar-nav" ),'li').addClass('active');
-//
-  //    });
-  //  };
     renderBox(options = {}){
 
       let settings = Object.assign(
@@ -222,32 +180,6 @@ class LibraryView {
       });
     };
 
-    //fixContentLinksWithinLibrary(){
-    //
-    //  $('.library-content a').each(function(){
-    //    let thisLink = $(this);
-    //    let thisLinkHref = $(this).attr('href');
-    //
-    //    // If the href is null or undefined set it to a empty string
-    //    if (typeof thisLinkHref === 'undefined' || thisLinkHref === null) {
-    //      thisLinkHref = "";
-    //    }
-    //
-    //    if (thisLinkHref.toLowerCase().indexOf("index.php") >= 0){
-    //      let arr = thisLinkHref.split('=');
-    //
-    //      // Check if the ID exsist in the navigation
-    //      if ($('a[data-pageid="'+arr[1]+'"]').length) {
-    //        // Get the generated navItemHref
-    //        let navItemHref = $('a[data-pageid="'+arr[1]+'"]').attr('href');
-    //        // Update thisLink to the generated navItemHref
-    //        $(thisLink).attr('href', navItemHref);
-    //      }
-    //
-    //    }
-    //
-    //  });
-    //};
     // Update google analytics on page-navigation
     updateAnalytics(){
       // Send page update to hiof.no analytics
@@ -267,15 +199,7 @@ class LibraryView {
           view = new View();
 
       Hiof.libraryView = library;
-      //Handlebars.registerHelper('each_upto', function(ary, max, options) {
-      //  if (!ary || ary.length === 0)
-      //  return options.inverse(this);
-      //
-      //  var result = [];
-      //  for (var i = 0; i < max && i < ary.length; ++i)
-      //  result.push(options.fn(ary[i]));
-      //  return result.join('');
-      //});
+
       Handlebars.registerHelper('each_after', function(ary, max, options) {
         if (!ary || ary.length === 0)
         return options.inverse(this);
@@ -383,49 +307,6 @@ class LibraryView {
         library.renderArticles(opt);
       });
 
-      //Path.map("#/:pagetitle/:pagetitle2/:pagetitle3").enter(function() {
-      //  library.updateAnalytics();
-      //}).to(function() {
-      //  var opt = {};
-      //  var str = this.params.pagetitle3;
-      //  var n = str.lastIndexOf('-');
-      //  var result = str.substring(n + 1);
-      //  opt.template = 'page';
-      //  opt.id = result;
-      //  opt.testId = result;
-      //  opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2),encodeURI(this.params.pagetitle3)];
-      //  opt.url = 'http://hiof.no/api/v2/page/';
-      //  //loadData(opt);
-      //  library.renderLibrary(opt);
-      //});
-      //Path.map("#/:pagetitle/:pagetitle2").enter(function() {
-      //  library.updateAnalytics();
-      //}).to(function() {
-      //  var opt = {};
-      //  var str = this.params.pagetitle2;
-      //  var n = str.lastIndexOf('-');
-      //  var result = str.substring(n + 1);
-      //  opt.template = 'page';
-      //  opt.id = result;
-      //  opt.pagetitle = [encodeURI(this.params.pagetitle), encodeURI(this.params.pagetitle2)];
-      //  opt.url = 'http://hiof.no/api/v2/page/';
-      //  //loadData(opt);
-      //  library.renderLibrary(opt);
-      //});
-      //Path.map("#/:pagetitle").enter(function() {
-      //  library.updateAnalytics();
-      //}).to(function() {
-      //  var opt = {};
-      //  var str = this.params.pagetitle;
-      //  var n = str.lastIndexOf('-');
-      //  var result = str.substring(n + 1);
-      //  opt.template = 'page';
-      //  opt.id = result;
-      //  opt.pagetitle = encodeURI(this.params.pagetitle);
-      //  opt.url = 'http://hiof.no/api/v2/page/';
-      //  //loadData(opt);
-      //  library.renderLibrary(opt);
-      //});
 
       Path.map("#/aktuelt").to(function() {
         let opt = {};
@@ -479,41 +360,6 @@ class LibraryView {
         }
       });
 
-
-      //$(document).on('click', '.library-search-advanced-toggle', function(e) {
-      //  e.preventDefault();
-      //  $(this).toggleClass('btn-default').toggleClass('btn-primary');
-      //  $('.library-search-simple').toggleClass('input-group').toggleClass('form-group');
-      //  $('.form-horizontal  .control-label').toggleClass('sr-only');
-      //  $('.library-search-simple-button').toggle();
-      //  $('.library-search-advanced').toggleClass('visuallyhidden');
-      //});
-      //$(document).on('submit', '.form-horizontal', function(e){
-      //  e.preventDefault();
-      //  let data = $('.form-horizontal input').serialize();
-      //  console.log("Searching for....");
-      //  console.log(data);
-      //  console.log("/Searching for....");
-      //});
-
-
-      //if($('.article-load').length){
-      //  //console.log('.article load exists..');
-      //
-      //  let opt = {};
-      //  opt.template = 'articles';
-      //  opt.url = 'http://hiof.no/api/v1/articles/';
-      //  opt.category = '20';
-      //  opt.articleLoClass = 'lo-half';
-      //  //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
-      //  opt.pageSize = '4';
-      //
-      //
-      //  library.renderArticles(opt);
-      //
-      //
-      //}
-
       $(window).on('indexrender', function (e) {
         library.renderIndex();
       });
@@ -524,7 +370,6 @@ class LibraryView {
         opt.url = '//www.hiof.no/api/v1/articles/';
         opt.category = '20';
         opt.articleLoClass = 'lo-quarter';
-        //opt.articleDestinationAddressInternal = '#/biblioteket/aktuelt';
         opt.pageSize = '4';
 
 
@@ -547,7 +392,7 @@ class LibraryView {
         }else{
           opt.id = "1036";
         }
-        //loadData(opt);
+
         library.renderBox(opt);
 
       });
